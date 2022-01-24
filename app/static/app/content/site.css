@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Oxygen:wght@300;400;700&display=swap');
+
+
+/* Set padding to keep content from hitting the edges */
+.body-container {
+    padding: 1.5rem 0.75rem 1.5rem 0.75rem;
+}
+
+.font-oxygen {
+    font-family: 'Oxygen', sans-serif;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
