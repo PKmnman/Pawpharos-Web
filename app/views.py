@@ -5,6 +5,9 @@ Definition of views.
 from datetime import datetime
 from django.shortcuts import redirect, render
 from django.http import HttpRequest
+from django.views.generic.edit import FormView
+
+from app.forms import RegistrationForm
 
 def home(request):
     """Renders the home page."""
@@ -13,7 +16,7 @@ def home(request):
         request,
         'app/index.html',
         {
-            'title':'Home Page',
+            'title':'Fur-Tector',
             'year':datetime.now().year,
         }
     )
@@ -47,3 +50,36 @@ def about(request):
             'year':datetime.now().year,
         }
     )
+
+def account(request, account_id):
+    assert isinstance(request, HttpRequest)
+    if account_id is None:
+        return redirect()
+    return render(
+        request,
+        'app/account.html',
+        {
+            'title':'Fur-Tector - Account Details',
+            'account_id':account_id
+        }
+    )
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  
+            # load the profile instance created by the signal
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+ 
+            # login user after signing up
+            # user = authenticate(username=user.username, password=raw_password)
+            # login(request, user)
+ 
+            # redirect user to home page
+            return redirect('home')
+    else:
+        form = RegistrationForm()
+    return render(request, 'app/register.html', {'form': form})

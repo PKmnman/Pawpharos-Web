@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Oxygen:wght@300;400;700&display=swap');
 
-
-/* Set padding to keep content from hitting the edges */
-.body-container {
-    padding: 1.5rem 0.75rem 1.5rem 0.75rem;
+main {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  color: #5a5a5a;
 }
 
 .font-oxygen {
