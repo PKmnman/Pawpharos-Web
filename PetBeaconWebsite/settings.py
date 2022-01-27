@@ -25,7 +25,7 @@ SECRET_KEY = 'ccd6c2d8-6ab1-45ad-9565-a452f5001760'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['159.223.182.161', 'localhost']
+ALLOWED_HOSTS = ['32.209.57.207', 'localhost', 'pawpharos.com', 'www.pawpharos.com']
 
 APPEND_SLASH = False
 
