@@ -29,18 +29,17 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
+            <img src="{% static "app/images/rottweiler_01.jpg" %}" style="top: -10%;">
             <div class="container">
-            <div class="carousel-caption text-start">
-                <h1>Example headline.</h1>
-                <p>Some representative placeholder content for the first slide of the carousel.</p>
-                <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
-            </div>
+                <div class="carousel-caption text-start">
+                    <h1 class="font-oxygen">Track Them</h1>
+                    <p>Ohhh, look how cute she is, how precious a bean!!!</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                </div>
             </div>
         </div>
         <div class="carousel-item">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+            <img src="{% static "app/images/cat_01.jpg" %}" style="top: -25%;">
 
             <div class="container">
             <div class="carousel-caption">
@@ -90,10 +89,13 @@
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
     </div><!-- /.col-lg-4 -->
     <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-
-        <h2>Heading</h2>
-        <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
+        <!--<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>-->
+        <span class="rounded-circle" style="width:140px;height:140px;">
+            <img class="img-fluid" width=140px height=140px src="{% static "app/images/bella_02_square.jpg" %}">
+        </span>
+        
+        <h2>It's Bella!!</h2>
+        <p>A wild Bella has appeared! Do you have the willpower to track her down? Use your Fur-Tector to see where she's been.</p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
     </div><!-- /.col-lg-4 -->
     <div class="col-lg-4">
@@ -153,9 +155,9 @@
 
 </div><!-- /.container -->
 
-  <!-- FOOTER -->
-  <footer class="container">
-    <p class="float-end"><a href="#">Back to top</a></p>
-  </footer>
+<!-- FOOTER -->
+<footer class="container">
+<p class="float-end"><a href="#">Back to top</a></p>
+</footer>
 
 {% endblock %}

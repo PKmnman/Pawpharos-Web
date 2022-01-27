@@ -1,14 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster:wght@300;400;700&display=swap');
 
-main {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  color: #5a5a5a;
+/* Font families */
+$fontOxygen: Oxygen, sans-serif;
+$fontLobster: Lobster, cursive;
+
+$fonts: ("oxygen": $fontOxygen, "lobster": $fontLobster);
+
+@function add-font($fontMap) {
+	$fonts: map-merge($fonts, $fontMap)
 }
 
-.font-oxygen {
-    font-family: 'Oxygen', sans-serif;
+// utility styles for fonts
+
+@each $name, $value in $fonts {
+	.font-#{$name} {
+		font-family: $value;
+	}
+}
+
+main {
+  padding-top: 4.25rem;
+  padding-bottom: 3rem;
+  color: #5a5a5a;
+  font-family: $fontOxygen;
+}
+
+.rounded-circle > img {
+    border-radius: inherit;
+    overflow: hidden;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
