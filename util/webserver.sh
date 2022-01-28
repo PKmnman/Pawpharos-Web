@@ -1,18 +1,14 @@
 #!/bin/bash
 
-# Variables
+#############################################################################
+# Petpharos Web Server Setup Script
+# Author: Gary Reeves
+# Date: 1/25/2022
+# Desc: A script that automates the process of setting up the Petpharos web 
+# application on a remote virtual server.
+#############################################################################
 
-DJANGO_PROJECT="pawpharos"
-PROJECT_REPOSITORY=git@github.com:PKmnman/PetBeaconWebsite.git
-
-DJANGO_USER=django
-DJANGO_GROUP=django
-
-SETTINGS_DIR=/etc/opt/$DJANGO_PROJECT
-DATA_DIR=/var/opt/$DJANGO_PROJECT
-
-DOMAIN=pawpharos.com
-
+# Define Variables
 
 # Use an environment variable to see if we've already installed everything
 if [ -n ${PAWPHAROS_INSTALLED:-''} ]
@@ -20,8 +16,18 @@ then
     export PAWPHAROS_INSTALLED=False
 fi
 
+DJANGO_PROJECT=pawpharos
+PROJECT_REPOSITORY=git@github.com:PKmnman/PetBeaconWebsite.git
 
-#apt update && apt -y upgrade
+DJANGO_USER=pawpharos
+DJANGO_GROUP=${DJANGO_USER}
+
+PAWPHAROS_SETTINGS=/etc/opt/$DJANGO_PROJECT
+PAWPHAROS_DATA=/var/opt/$DJANGO_PROJECT
+
+DOMAIN=pawpharos.com
+
+#apt -y update && apt -y upgrade
 
 precompile () {
 	/opt/$DJANGO_PROJECT/venv/bin/python -m compileall -x /opt/$DJANGO_PROJECT/venv/ /opt/$DJANGO_PROJECT
@@ -36,9 +42,9 @@ install-apache () {
 
     cat > /etc/apache2/sites-available/$DOMAIN.conf << EOF
 <VirtualHost *:80>
-    ServerName pawpharos.com
-    ServerAlias www.pawpharos.com
-    DocumentRoot /var/www/pawpharos.com
+    ServerName ${DOMAIN}
+    ServerAlias www.${DOMAIN}
+    DocumentRoot /var/www/${DOMAIN}
     ProxyPass /static/ !
     ProxyPass /media/ !
     ProxyPass / http://localhost:8000/
@@ -86,26 +92,26 @@ setup () {
 	/opt/$DJANGO_PROJECT/venv/bin/pip install -r /opt/$DJANGO_PROJECT/requirements.txt
 
 	# Setup data, log, and settings Directories
-	mkdir -p $DATA_DIR
-	chown $DJANGO_USER $DATA_DIR
+	mkdir -p $PAWPHAROS_DATA
+	chown $DJANGO_USER $PAWPHAROS_DATA
 
 	mkdir -p /var/log/$DJANGO_PROJECT
 	chown $DJANGO_USER /var/log/$DJANGO_PROJECT
 
-	mkdir $SETTINGS_DIR
+	mkdir $PAWPHAROS_SETTINGS
     chgrp $DJANGO_GROUP /etc/opt/$DJANGO_PROJECT
     chmod u=rwx,g=rx,o= /etc/opt/$DJANGO_PROJECT
 
     # Create the settings.py file
-	cat > "$SETTINGS_DIR/settings.py" << EOF
+	cat > "$PAWPHAROS_SETTINGS/settings.py" << EOF
 from PetBeaconWebsite.settings import *
 
 DEBUG = True
-ALLOWED_HOSTS = ['pawpharos.com', 'www.pawpharos.com']
+ALLOWED_HOSTS = ['${DOMAIN}', 'www.${DOMAIN}']
 DATABASES = {
     default':{
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'var/opt/pawpharos/pawpharos.db',
+        'NAME': 'var/opt/${DJANGO_PROJECT}/${DJANGO_PROJECT}.db',
     }
 }
 
@@ -113,16 +119,20 @@ STATIC_ROOT = 'var/cache/$DJANGO_PROJECT/static/'
 STATIC_URL = '/static/'
 EOF
 
+    # Compile whenever we update our settings
     precompile
     collect-static
 
-    
+    # Install & Configure Apache
 
+    # Install & Configure Gunicorn
 }
 
 uninstall () {
-    rm -r $SETTINGS_DIR
-    rm -r $DATA_DIR
+
+
+    rm -r $PAWPHAROS_SETTINGS
+    rm -r $PAWPHAROS_DATA
     rm -r /var/log/$DJANGO_PROJECT
     rm -r /opt/$DJANGO_PROJECT
 
