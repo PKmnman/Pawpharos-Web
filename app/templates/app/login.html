@@ -1,5 +1,5 @@
 {% extends "app/layout.html" %}
-
+{% load static %}
 {% block content %}
 
 <div class="container p-3">
@@ -46,7 +46,7 @@
 
 {% block scripts %}
 
-{% load staticfiles %}
+
 <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
 
 {% endblock %}
