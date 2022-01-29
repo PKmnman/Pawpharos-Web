@@ -25,7 +25,7 @@ SECRET_KEY = 'ccd6c2d8-6ab1-45ad-9565-a452f5001760'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['32.209.57.207', 'localhost', 'pawpharos.com', 'www.pawpharos.com']
+ALLOWED_HOSTS = ['localhost', 'pawpharos.com', 'www.pawpharos.com']
 
 APPEND_SLASH = False
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders'
 ]
 
 # Middleware framework
@@ -52,7 +53,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
+
+CORS_ORIGIN_WHITELIST = (
+  'http://pawpharos.com',
+  'http://www.pawpharos.com'
+)
 
 ROOT_URLCONF = 'PetBeaconWebsite.urls'
 
