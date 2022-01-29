@@ -32,7 +32,6 @@ APPEND_SLASH = False
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
-    'app',
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'
+    'app',
+    'storages'
 ]
 
 # Middleware framework
@@ -55,11 +55,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware'
 ]
-
-CORS_ORIGIN_WHITELIST = (
-  'http://pawpharos.com',
-  'http://www.pawpharos.com'
-)
 
 ROOT_URLCONF = 'PetBeaconWebsite.urls'
 
@@ -116,7 +111,20 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+AWS_S3_CUSTOM_DOMAIN = 'static.pawpharos.com'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-STATIC_URL = '/static/'
-STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'pawpharos-static'
+AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_LOCATION = 'static'
+STATIC_URL = 'https://nyc3.digitaloceanspaces.com/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
