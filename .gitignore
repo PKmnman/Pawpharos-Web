@@ -5,6 +5,7 @@
 
 .ssh/
 .github/
+.vscode/
 
 # Virtual Python Environments
 venv/
