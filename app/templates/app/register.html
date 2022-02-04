@@ -8,34 +8,32 @@
 				{% csrf_token %}
 				<h2>Register</h2>
 				<hr/>
-				<div class="form-group mb-3">
-					<label for="id_username" class="col-md-2 control-label">Username</label>
-					<div class="col-md-10">
-						{{ form.username }}
+				
+				{% for field in form %}
+				<div class="form-group has-validation mb-3">
+					<div class="form-group has-validation mb-3">
+						<label for="{{ field.id_for_label }}" class="col-md-2 control-label">{{ field.label }}</label>
+						<div class="col-md-10">
+							{{ field }}
+						</div>
 					</div>
 				</div>
-				<div class="form-group mb-3">
-					<label for="id_password1" class="col-md-2 control-label">Password</label>
-					<div class="col-md-10">
-						{{ form.password1 }}
-					</div>
-				</div>
-				<div class="form-group mb-3">
-					<label for="id_password2" class="col-md-2 control-label">Re-enter Password</label>
-					<div class="col-md-10">
-						{{ form.password2 }}
-					</div>
-				</div>
+				{% endfor %}
+				
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-10">
 						<input type="hidden" name="next" value="/" />
 						<input type="submit" value="Register" class="btn btn-primary" />
 					</div>
 				</div>
-				{% if form.errors %}
-				
-				{% endif %}
 			</form>
+			{% if form.errors %}
+			<ul class="validation-summary-errors">
+				{% for error in form.errors %}
+				<li>{{error}}</li>
+				{%endfor%}
+			</ul>
+			{% endif %}
 		</section>
 	</div>
 </div>
@@ -46,5 +44,14 @@
 
 {% load static %}
 <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+<script type="text/javascript">
+
+function setError(id) {
+	$(id).removeClass("is-valid")
+	$(id).addClass("is-invalid")
+}
+
+</script>
 
 {% endblock %}

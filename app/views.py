@@ -3,10 +3,16 @@ Definition of views.
 """
 
 from datetime import datetime
+import uuid
 from django.shortcuts import redirect, render
 from django.http import HttpRequest
 from django.views.generic.edit import FormView
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 
+from django.contrib.auth.decorators import login_required
+
+import app.models as models
 from app.forms import RegistrationForm
 
 def home(request):
@@ -16,7 +22,7 @@ def home(request):
         request,
         'app/index.html',
         {
-            'title':'Fur-Tector',
+            'title':'Pawpharos',
             'year':datetime.now().year,
         }
     )
@@ -51,32 +57,39 @@ def about(request):
         }
     )
 
-def account(request, account_id):
+@login_required(login_url='/login/')
+def account(request, **kwargs):
     assert isinstance(request, HttpRequest)
-    if account_id is None:
-        return redirect()
     return render(
         request,
         'app/account.html',
         {
-            'title':'Fur-Tector - Account Details',
-            'account_id':account_id
+            'title':'Pawpharos - Account Details',
+            'profile': models.UserProfile.objects.get_or_create(account=request.user)
         }
     )
-
+    
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()  
+            user: User = form.save()
+            user.refresh_from_db()
+            
             # load the profile instance created by the signal
+            profile: models.UserProfile = models.UserProfile.objects.create()
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            raw_password = form.cleaned_data['password1']
+            
+            user.profile = profile
+            
+            profile.save()
             user.save()
-            raw_password = form.cleaned_data.get('password1')
- 
+
             # login user after signing up
-            # user = authenticate(username=user.username, password=raw_password)
-            # login(request, user)
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
  
             # redirect user to home page
             return redirect('home')

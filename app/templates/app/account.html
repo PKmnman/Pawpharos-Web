@@ -1,34 +1,50 @@
 {% extends "app/layout.html" %}
 <!-- Make sure that the page redirects if the user isn't authenticated -->
 {% block content %}
-<div class="container">
-	
-    <h2>Account Details</h2>
-    <hr/>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h3>Name: </h3>
-            </div>
-            <div class="col-md-4">
-                <h3>{{user.first_name}} {{user.last_name}}</h3>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Devices: </h3>
-            </div>
-            <div class="col-md-2">
-                <a href="." class="btn btn-primary">Add Device</a>
+<div class="container-fluid">
+    <section class="my-3">
+        <div class="container-fluid">
+            <h2>Account Details</h2>
+            <hr/>
+            <div class="row">
+                <div class="col-md-4 font-oxygen fs-md-4">
+                    <span>Name: </span>
+                    <span>{{user.first_name}} {{user.last_name}}</span>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <table>
-                <!-- Generate the table using context data -->
-            </table>
+    </section>
+
+    <section>
+        <div class="container-fluid">
+            
+            <div class="row justify-content-between">
+                <div class="col-2 me-auto">
+                    <h3 class="mb-sm-2">Devices: </h3>
+                </div>
+                <div class="col-6 ms-auto d-flex flex-row">
+                    <button type="button" class="btn btn-primary ms-auto">Add Device</button>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table-responsive">
+                    {% for device in user.beacons.all %}
+                    <tr>
+                        <td>{{ device.uuid }}</td>
+                        <td>
+                            {% if device.pet is None %}
+                            {{ device.pet.name}}
+                            {% else %}
+                            Untracked
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Generate the table using context data -->
+                </table>
+            </div>
         </div>
-    </div>
+    </section>
 
 </div>
 {% endblock %}
