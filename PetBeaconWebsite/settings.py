@@ -119,8 +119,8 @@ LOGGING = {
         'file': {
             'class': 'logging.handlers.'
                      'TimedRotatingFileHandler',
-            'filename': '/var/log/$DJANGO_PROJECT/'
-                        '$DJANGO_PROJECT.log',
+            'filename': '/var/log/pawpharos/'
+                        'pawpharos.log',
             'when': 'midnight',
             'backupCount': 60,
             'formatter': 'default',
