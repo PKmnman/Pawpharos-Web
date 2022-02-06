@@ -1,4 +1,3 @@
-from email.mime import application
 import os
 
 from channels.routing import ProtocolTypeRouter
