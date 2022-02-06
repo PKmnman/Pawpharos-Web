@@ -106,6 +106,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "myproject.routing.channel_routing",
+    },
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -117,10 +124,8 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'class': 'logging.handlers.'
-                     'TimedRotatingFileHandler',
-            'filename': '/var/log/pawpharos/'
-                        'pawpharos.log',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '/var/log/pawpharos/pawpharos.log',
             'when': 'midnight',
             'backupCount': 60,
             'formatter': 'default',
@@ -128,7 +133,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['file'],
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
 }
 
