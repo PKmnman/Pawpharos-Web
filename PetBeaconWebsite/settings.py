@@ -133,7 +133,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['file'],
-        'level': 'DEBUG',
+        'level': 'ERROR',
     },
 }
 
