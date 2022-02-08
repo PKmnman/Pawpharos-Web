@@ -43,25 +43,7 @@
                 </div>
                 <!-- Changes the page based on  -->
                 <div class="ms-auto">
-                    {% if user.is_authenticated %}
-                    <form id="logoutForm" action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <ul class='navbar-nav ms-md-auto flex-sm-row mb-lg-0'>
-                            <li class='nav-item'>
-                                <a class='nav-link' href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
-                            </li>
-                        </ul>
-                    </form>
-                    {% else %}
-                    <ul class='navbar-nav ms-md-auto mb-lg-0'>
-                        <li class'nav-item'>
-                            <a class='nav-link' href="{% url 'login' %}">Login</a>
-                        </li>
-                        <li class'nav-item'>
-                            <a class='nav-link' href="{% url 'register' %}">Register</a>
-                        </li>
-                    </ul>
-                    {% endif %}
+                    {% include 'app/loginpartial.html' %}
                 </div>
             </div>  
         </div>
