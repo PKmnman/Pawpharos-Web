@@ -12,15 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='pet',
-            name='id',
-        ),
-        migrations.AddField(
-            model_name='pet',
-            name='uuid',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
-        ),
         migrations.AlterField(
             model_name='beacondevice',
             name='user',
