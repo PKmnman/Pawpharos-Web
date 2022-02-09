@@ -10,14 +10,13 @@
 				<hr/>
 				
 				{% for field in form %}
-				<div class="form-group has-validation mb-3">
 					<div class="form-group has-validation mb-3">
 						<label for="{{ field.id_for_label }}" class="col-md-2 control-label">{{ field.label }}</label>
 						<div class="col-md-10">
 							{{ field }}
 						</div>
+						<div class="validation-summary-errors"> {{field.errors}} </div>
 					</div>
-				</div>
 				{% endfor %}
 				
 				<div class="form-group">
@@ -27,13 +26,7 @@
 					</div>
 				</div>
 			</form>
-			{% if form.errors %}
-			<ul class="validation-summary-errors">
-				{% for error in form.errors %}
-				<li>{{error}}</li>
-				{%endfor%}
-			</ul>
-			{% endif %}
+			
 		</section>
 	</div>
 </div>

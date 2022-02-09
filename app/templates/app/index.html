@@ -29,9 +29,17 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active flex-center">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <rect width="100%" height="100%" fill="#777"/>
-            </svg>
+            <div class="position-relative">
+                <picture>
+                    <source media="(min-width: 1400px)" srcset="{% static "app/images/bella-banner-xxl.jpg" %}">
+                    <source media="(min-width: 1200px)" srcset="{% static "app/images/bella-banner-xl.jpg" %}">
+                    <source media="(min-width: 768px)" srcset="{% static "app/images/bella-banner-lg.jpg" %}">
+                    <source media="(min-width: 576px)" srcset="{% static "app/images/bella-banner-md.jpg" %}">
+                    
+                    <img class="position-relative translate-middle-x w-auto" style="left:50%;top:0;height:512px" src="{% static "app/images/rottweiler_01.jpg" %}">
+                </picture>
+            </div>
+            
             <div class="container">
                 <div class="carousel-caption text-start">
                     <h1 class="font-oxygen">Track Them</h1>
