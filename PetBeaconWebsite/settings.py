@@ -2,22 +2,12 @@
 Django settings for PetBeaconWebsite project.
 
 Based on 'django-admin startproject' using Django 2.1.2.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/2.1/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import posixpath
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ccd6c2d8-6ab1-45ad-9565-a452f5001760'
@@ -113,29 +103,7 @@ CHANNEL_LAYERS = {
     },
 }
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'default': {
-            'format': '[%(asctime)s] %(levelname)s: '
-                      '%(message)s',
-        }
-    },
-    'handlers': {
-        'file': {
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': '/var/log/pawpharos/pawpharos.log',
-            'when': 'midnight',
-            'backupCount': 60,
-            'formatter': 'default',
-        },
-    },
-    'root': {
-        'handlers': ['file'],
-        'level': 'DEBUG',
-    },
-}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
