@@ -3,7 +3,7 @@ Definition of views.
 """
 
 from datetime import datetime
-import uuid
+from uuid import uuid4
 from django.shortcuts import redirect, render
 from django.http import HttpRequest
 from django.views.generic.edit import FormView
@@ -82,8 +82,10 @@ def register(request):
             user.last_name = form.cleaned_data['last_name']
             raw_password = form.cleaned_data['password1']
             
+            # Associate the profile with the user account
             user.profile = profile
             
+            # Save the changes to the database
             profile.save()
             user.save()
 

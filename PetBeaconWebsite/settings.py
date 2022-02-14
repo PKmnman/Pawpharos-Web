@@ -94,6 +94,9 @@ else:
         }
     }
 
+
+LOGIN_URL = '/login/'
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -118,6 +121,34 @@ CHANNEL_LAYERS = {
     },
 }
 
+LOG_DIR = os.getenv('LOG_DIR', os.path.join(BASE_DIR, 'log'))
+
+if not os.path.isdir(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '[%(asctime)s] %(levelname)s: '
+                      '%(message)s',
+        }
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'pawpharos.log'),
+            'when': 'midnight',
+            'backupCount': 60,
+            'formatter': 'default',
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'INFO',
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -131,8 +162,10 @@ AWS_S3_CUSTOM_DOMAIN = 'static.pawpharos.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+#AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_ACCESS_KEY_ID = 'EYHTDDOJ2J66LL2EAM2M'
+#AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = 'T3+/SNFgRQ2EJjKImUmm2fTZOtOPkz/do25/Iw1QiPk'
 AWS_STORAGE_BUCKET_NAME = 'pawpharos-static'
 AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
