@@ -5,7 +5,6 @@ Definition of forms.
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import User
 
 class BootstrapAuthenticationForm(AuthenticationForm):
     """Authentication form which uses boostrap CSS."""
@@ -59,3 +58,33 @@ class RegistrationForm(UserCreationForm):
         widget=forms.PasswordInput({
             'class': 'form-control',
             'placeholder':'Re-enter Password'}))
+
+
+# Form for adding a new device to the account
+class AddDeviceForm(forms.Form):
+
+    device_type = forms.ChoiceField(
+        choices=[
+            ('B', 'Beacon'),
+            ('S', 'Sniffer'),
+        ],
+        label=_('Device Type'),
+        widget=forms.Select({
+            'class': 'form-select',
+            'aria-label': 'Device Type Select',
+        })
+    )
+
+    name = forms.CharField(
+        max_length=64
+    )
+
+    code = forms.CharField(
+        label=_('Device Code'),
+        max_length=14,
+        widget=forms.TextInput({
+            'class': 'form-control',
+            'placeholder': 'snff-XXXX-XXXX',
+        })
+    )
+
