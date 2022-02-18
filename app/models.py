@@ -52,7 +52,7 @@ class BeaconPing(models.Model):
     beacon = models.ForeignKey(
         BeaconDevice,
         on_delete=models.CASCADE,
-        related_name='beacon')
+        related_name='pinged_beacon')
     sniffer = models.ForeignKey(
         Sniffer,
         on_delete=models.CASCADE,
