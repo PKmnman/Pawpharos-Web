@@ -1,5 +1,8 @@
 {% extends "app/layout.html" %}
 <!-- Make sure that the page redirects if the user isn't authenticated -->
+
+{% load static %}
+
 {% block content %}
 <div class="container-fluid">
     <section class="my-3">
@@ -23,7 +26,10 @@
                     <h3 class="mb-sm-2">Devices: </h3>
                 </div>
                 <div class="col-6 ms-auto d-flex flex-row">
-                    <button type="button" class="btn btn-primary ms-auto">Add Device</button>
+                    <button type="button" class="btn btn-primary ms-auto"
+                        data-bs-target="#formCanvasElement"
+                        data-bs-toggle="offcanvas"
+                        onclick="showAddDevice()">Add Device</button>
                 </div>
             </div>
             <div class="row">
@@ -46,5 +52,21 @@
         </div>
     </section>
 
+    <div id="formCanvasElement" tabindex="-1"class="offcanvas offcanvas-start">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="formCanvasLabel"></h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div id="formCanvasBody" class="offcanvas-body">
+
+        </div>
+    </div>
+
 </div>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'app/scripts/app.forms.js' %}" type="application/javascript"></script>
+
 {% endblock %}

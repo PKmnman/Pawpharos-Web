@@ -1,0 +1,30 @@
+<div class="container">
+    <form action="." method="post">
+
+        <div class="mb-3 form-group">
+            <label for="{{ form.device_type.id_for_label }}" class="control-label">{{ form.device_type.label }}</label>
+            {{ form.device_type }}
+        </div>
+
+        <div class="mb-3">
+            <div class="mb-3 form-group">
+                <label for="{{ form.name.id_for_label }}" class="control-label">
+                    {{ form.name.label }}
+                </label>
+                {{ form.name }}
+            </div>
+            <div class="mb-3 form-group">
+                <label for="{{ form.code.id_for_label }}" class="control-label">
+                    {{ form.code.label }}
+                </label>
+                {{ form.code }}
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <input type="hidden" name="formType" value="add-device"/>
+            <input type="submit" value="Register" class="btn btn-primary float-start"/>
+        </div>
+
+    </form>
+</div>

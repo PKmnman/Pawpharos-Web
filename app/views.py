@@ -3,17 +3,22 @@ Definition of views.
 """
 
 from datetime import datetime
+import logging
+from tkinter import N
+
 from uuid import uuid4
 from django.shortcuts import redirect, render
-from django.http import HttpRequest
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseNotFound, JsonResponse
 from django.views.generic.edit import FormView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 
 from django.contrib.auth.decorators import login_required
 
+from django.template.loader import render_to_string
+
 import app.models as models
-from app.forms import RegistrationForm
+import app.forms as forms
 
 def home(request):
     """Renders the home page."""
@@ -71,7 +76,7 @@ def account(request, **kwargs):
     
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = forms.RegistrationForm(request.POST)
         if form.is_valid():
             user: User = form.save()
             user.refresh_from_db()
@@ -96,5 +101,31 @@ def register(request):
             # redirect user to home page
             return redirect('home')
     else:
-        form = RegistrationForm()
+        form = forms.RegistrationForm()
     return render(request, 'app/register.html', {'form': form})
+
+def get_form(request: HttpRequest, form_type = None):
+    try:
+        # On a GET request
+        if request.method == 'GET':
+            # Generate the form and populate the context
+            form = eval(f'forms.{form_type}()')
+            context = { "form": form }
+
+            # Generate the URL to the template we need to render
+            templateURL = f"app/{request.GET.get('t', None)}.html"
+            if request.GET.get('t', None) is None:
+                raise Http404("Form template not found")
+
+            # Open the template URL and render it
+            try:
+                template = render_to_string(f'app/{request.GET.get("t", None)}.html', context=context)
+                return JsonResponse({"formHTML": template})
+            except Exception as e:
+                logging.exception(
+                    "Exception occured during processing of template: %s", templateURL,
+                    exc_info=e
+                )
+                return HttpResponse(status=500)
+    except:    
+        raise Http404("Error locating form!!")

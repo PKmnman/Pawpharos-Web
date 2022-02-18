@@ -29,5 +29,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('admin/', admin.site.urls, name='admin'),
     path('features/', views.features, name='features'),
-    path('account/', views.account, {'account_id':None}, name='account')
+    path('account/', views.account, {'account_id':None}, name='account'),
+    path('api/forms/<str:form_type>', views.get_form, name='get_form')
 ]

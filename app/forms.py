@@ -76,7 +76,11 @@ class AddDeviceForm(forms.Form):
     )
 
     name = forms.CharField(
-        max_length=64
+        label=_('Device Name'),
+        max_length=64,
+        widget=forms.TextInput({
+            'class': 'form-control'
+        })
     )
 
     code = forms.CharField(
@@ -84,7 +88,6 @@ class AddDeviceForm(forms.Form):
         max_length=14,
         widget=forms.TextInput({
             'class': 'form-control',
-            'placeholder': 'snff-XXXX-XXXX',
+            'placeholder': 'snff-XXXX-XXXX-XXXX',
         })
     )
-
