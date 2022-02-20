@@ -10,10 +10,12 @@ from uuid import uuid4
 from django.shortcuts import redirect, render
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseNotFound, JsonResponse
 from django.views.generic.edit import FormView
-from django.contrib.auth.models import User
+from django.views import View
+
 from django.contrib.auth import login, authenticate
 
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from django.template.loader import render_to_string
 
@@ -65,51 +67,43 @@ def about(request):
 @login_required(login_url='/login/')
 def account(request, **kwargs):
     assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/account.html',
-        {
-            'title':'Pawpharos - Account Details',
-            'profile': models.UserProfile.objects.get_or_create(account=request.user)
-        }
-    )
-    
+
+    if request.method == 'GET':
+        # Just open the account details page
+        return render(
+            request,
+            'app/account.html',
+            {
+                'title':'Pawpharos - Account Details',
+                'profile': models.UserProfile.objects.get(account=request.user)
+            }
+        )
+
+
 def register(request):
     if request.method == 'POST':
         form = forms.RegistrationForm(request.POST)
-        if form.is_valid():
-            user: User = form.save()
-            user.refresh_from_db()
-            
-            # load the profile instance created by the signal
-            profile: models.UserProfile = models.UserProfile.objects.create()
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            raw_password = form.cleaned_data['password1']
-            
-            # Associate the profile with the user account
-            user.profile = profile
-            
-            # Save the changes to the database
-            profile.save()
-            user.save()
+        if form.is_valid() and form.register_user():
 
             # login user after signing up
+            raw_password = form.cleaned_data['password1']
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
  
             # redirect user to home page
             return redirect('home')
     else:
+        # On GET request, just load the empty form
         form = forms.RegistrationForm()
     return render(request, 'app/register.html', {'form': form})
 
-def get_form(request: HttpRequest, form_type = None):
+
+def get_form(request: HttpRequest, form_type):
     try:
         # On a GET request
         if request.method == 'GET':
-            # Generate the form and populate the context
-            form = eval(f'forms.{form_type}()')
+            # Generate the form and add it to the context
+            form = forms.form_class[form_type]
             context = { "form": form }
 
             # Generate the URL to the template we need to render
@@ -117,7 +111,7 @@ def get_form(request: HttpRequest, form_type = None):
             if request.GET.get('t', None) is None:
                 raise Http404("Form template not found")
 
-            # Open the template URL and render it
+            # Try to open the template URL and render it
             try:
                 template = render_to_string(f'app/{request.GET.get("t", None)}.html', context=context)
                 return JsonResponse({"formHTML": template})

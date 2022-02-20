@@ -39,7 +39,7 @@ class Pet(models.Model):
 class Sniffer(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.TextField(max_length=64)
-    reg_code = models.Func()
+    reg_code = models.TextField()
     is_master = models.BooleanField()
     owner = models.ForeignKey(
         UserProfile, 

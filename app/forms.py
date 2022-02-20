@@ -5,6 +5,9 @@ Definition of forms.
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
+
+import app.models as models
 
 class BootstrapAuthenticationForm(AuthenticationForm):
     """Authentication form which uses boostrap CSS."""
@@ -59,6 +62,41 @@ class RegistrationForm(UserCreationForm):
             'class': 'form-control',
             'placeholder':'Re-enter Password'}))
 
+    def is_valid(self) -> bool:
+        if not super().is_valid():
+            return False
+        if not self.user_exists():
+            self.add_error('username', forms.ValidationError('An account with this username already exists!'))
+            return False
+        return True
+
+    def user_exists(self):
+        # Check that the user accound doesn't already exist
+        login_name = self.cleaned_data['username']
+        return User.objects.filter(username=login_name).count() > 0
+
+    def register_user(self):
+        # Register the user account
+        if self.is_valid():
+            user = self.save()
+            user.refresh_from_db()
+            
+            # load the profile instance created by the signal
+            profile = models.UserProfile.objects.create()
+
+            # Associate the profile with the user account
+            user.profile = profile
+            user.first_name = self.cleaned_data['first_name']
+            user.last_name = self.cleaned_data['last_name']
+            # Save the changes to the database
+            profile.save()
+            user.save()
+
+            return True
+
+        # Return False on failure to register
+        return False
+
 
 # Form for adding a new device to the account
 class AddDeviceForm(forms.Form):
@@ -91,3 +129,33 @@ class AddDeviceForm(forms.Form):
             'placeholder': 'snff-XXXX-XXXX-XXXX',
         })
     )
+
+    is_master = forms.BooleanField(
+        label=_('Is Master?'),
+        widget= forms.CheckboxInput()
+    )
+
+    def add_device(self, user):
+        # Associate the device with the user
+        reg_code = self.cleaned_data['reg_code']
+
+        # Switch model based on device type
+        if self.cleaned_data['device_type'] == "B":
+            device = models.BeaconDevice(
+                uuid=reg_code,
+                user=user
+            )
+        else:
+            device = models.Sniffer(
+                name=self.cleaned_data['name'],
+                reg_code=reg_code,
+                is_master=self.cleaned_data['is_master'],
+                owner=user
+            )
+
+        device.save()
+
+form_class = {
+    'AddDeviceForm': AddDeviceForm,
+    'RegistrationForm': RegistrationForm,
+}
