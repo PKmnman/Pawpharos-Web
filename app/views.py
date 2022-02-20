@@ -8,14 +8,11 @@ from tkinter import N
 
 from uuid import uuid4
 from django.shortcuts import redirect, render
-from django.http import Http404, HttpRequest, HttpResponse, HttpResponseNotFound, JsonResponse
-from django.views.generic.edit import FormView
-from django.views import View
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 
 from django.contrib.auth import login, authenticate
 
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 
 from django.template.loader import render_to_string
 
