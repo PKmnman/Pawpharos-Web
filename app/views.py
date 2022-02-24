@@ -3,7 +3,7 @@ Definition of views.
 """
 
 from datetime import datetime
-import logging
+import sys
 from tkinter import N
 
 from uuid import uuid4
@@ -13,11 +13,13 @@ from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.contrib.auth import login, authenticate
 
 from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
 
 from django.template.loader import render_to_string
 
 import app.models as models
 import app.forms as forms
+from app import LOGGER
 
 def home(request):
     """Renders the home page."""
@@ -94,29 +96,3 @@ def register(request):
         form = forms.RegistrationForm()
     return render(request, 'app/register.html', {'form': form})
 
-
-def get_form(request: HttpRequest, form_type):
-    try:
-        # On a GET request
-        if request.method == 'GET':
-            # Generate the form and add it to the context
-            form = forms.form_class[form_type]
-            context = { "form": form }
-
-            # Generate the URL to the template we need to render
-            templateURL = f"app/{request.GET.get('t', None)}.html"
-            if request.GET.get('t', None) is None:
-                raise Http404("Form template not found")
-
-            # Try to open the template URL and render it
-            try:
-                template = render_to_string(f'app/{request.GET.get("t", None)}.html', context=context)
-                return JsonResponse({"formHTML": template})
-            except Exception as e:
-                logging.exception(
-                    "Exception occured during processing of template: %s", templateURL,
-                    exc_info=e
-                )
-                return HttpResponse(status=500)
-    except:    
-        raise Http404("Error locating form!!")

@@ -1,6 +1,6 @@
 <div class="container">
-    <form action="." method="post">
-
+    <form id="addDevice" action="{% url "api-add-device" %}" method="post" class="form-horizontal">
+        {% csrf_token %}
         <div class="mb-3 form-group">
             <label for="{{ form.device_type.id_for_label }}" class="control-label">{{ form.device_type.label }}</label>
             {{ form.device_type }}
@@ -12,19 +12,34 @@
                     {{ form.name.label }}
                 </label>
                 {{ form.name }}
+                
+                <div class="validation-summary-errors"> {{form.name.errors}} </div>
             </div>
+
+            <div id="masterToggle" class="mb-3 form-group" hidden>
+                <label for="{{ form.is_master.id_for_label }}" class="control-label">
+                    {{ form.is_master.label }}
+                </label>
+                {{ form.is_master }}
+            </div>
+
             <div class="mb-3 form-group">
                 <label for="{{ form.code.id_for_label }}" class="control-label">
                     {{ form.code.label }}
                 </label>
                 {{ form.code }}
+                <div class="validation-summary-errors"> {{form.code.errors}} </div>
             </div>
         </div>
 
-        <div class="mt-3">
-            <input type="hidden" name="formType" value="add-device"/>
-            <input type="submit" value="Register" class="btn btn-primary float-start"/>
+        <div class="form-group">
+            <div class="mt-3">
+                <button id="submitButton" type="button" class="btn btn-primary float-start">Register</button>
+            </div>
         </div>
 
     </form>
+
+    
+    
 </div>

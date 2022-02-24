@@ -3,10 +3,10 @@ Definition of urls for PetBeaconWebsite.
 """
 
 from datetime import datetime
-from django.urls import path
+from django.urls import path, include
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
-from app import forms, views
+from app import forms, views, ajax_views
 
 
 urlpatterns = [
@@ -30,5 +30,5 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('features/', views.features, name='features'),
     path('account/', views.account, {'account_id':None}, name='account'),
-    path('api/forms/<str:form_type>', views.get_form, name='get_form')
+    path('api/', include('app.api.urls')),
 ]

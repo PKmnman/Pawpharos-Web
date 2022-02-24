@@ -6,21 +6,63 @@
 
 var currentForm = ""
 
-function loadFormTemplate(target, form, template){
-    $.get("/api/forms/" + form, {t: template}, function (data){
-        $(target)[0].innerHTML = data.formHTML
-    })
+function loadFormTemplate(target, form, template, callback){
+    let url = "/api/forms/" + form + "?t=" + template;
+
+    $.get(url, function (data){
+        // Load the form data into the page
+        $(target)[0].innerHTML = data.formHTML;
+        // Callback occurs after the form has loaded
+        callback();
+    });
 }
 
-function toggleOffCanvas(target){
-    $(target)[0].classList.toggle("show")
-}
+// Add Device Functions
 
 function showAddDevice() {
+    // Wrap in an if statement to prevent multiple executions
     if(currentForm != "AddDeviceForm"){
-        loadFormTemplate("#formCanvasBody", "AddDeviceForm", "add-device-form");
+        // Set the label of the off-canvas element
         $("#formCanvasLabel")[0].innerHTML = "Add New Device";
+        loadFormTemplate("#formCanvasBody", "AddDeviceForm", "add-device-form", onAddDeviceLoad);
         currentForm = "AddDeviceForm"
     }
-    //toggleOffCanvas("#offCanvasElement")
+}
+
+function onDeviceChange(){
+    elem = document.getElementById("id_device_type")
+    if(elem.value == "S"){
+        document.getElementById("masterToggle").removeAttribute("hidden");
+    }else{
+        document.getElementById("masterToggle").setAttribute("hidden", "");
+    }
+}
+
+
+function onAddDeviceLoad(){
+
+    // Setup submit button
+    $("#submitButton").click(function(ev) {
+        let form = $("#addDevice");
+        let url = form.attr('action');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(),
+            success: function(data) {
+                if(data.status == 1){
+                    alert("Device Added!!")
+                    // Clear the form to be used again
+                    form[0].reset();
+                }
+                else{
+                    $("#formCanvasBody").innerHTML = data.content;
+                }
+            },
+            error: function(data) {
+                alert("Error loading form!!");
+            }
+        });
+    });
+    
 }

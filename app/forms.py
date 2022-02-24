@@ -110,7 +110,8 @@ class AddDeviceForm(forms.Form):
         widget=forms.Select({
             'class': 'form-select',
             'aria-label': 'Device Type Select',
-        })
+            'onchange': 'onDeviceChange()'
+        }),
     )
 
     name = forms.CharField(
@@ -123,7 +124,7 @@ class AddDeviceForm(forms.Form):
 
     code = forms.CharField(
         label=_('Device Code'),
-        max_length=14,
+        max_length=36,
         widget=forms.TextInput({
             'class': 'form-control',
             'placeholder': 'snff-XXXX-XXXX-XXXX',
@@ -132,23 +133,25 @@ class AddDeviceForm(forms.Form):
 
     is_master = forms.BooleanField(
         label=_('Is Master?'),
-        widget= forms.CheckboxInput()
+        widget= forms.CheckboxInput(),
+        initial=False,
+        required=False
     )
 
     def add_device(self, user):
         # Associate the device with the user
-        reg_code = self.cleaned_data['reg_code']
+        code = self.cleaned_data['code']
 
         # Switch model based on device type
         if self.cleaned_data['device_type'] == "B":
             device = models.BeaconDevice(
-                uuid=reg_code,
+                uuid=code,
                 user=user
             )
         else:
             device = models.Sniffer(
                 name=self.cleaned_data['name'],
-                reg_code=reg_code,
+                reg_code=code,
                 is_master=self.cleaned_data['is_master'],
                 owner=user
             )
