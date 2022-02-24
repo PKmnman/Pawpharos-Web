@@ -6,6 +6,23 @@
 
 var currentForm = ""
 
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 function loadFormTemplate(target, form, template, callback){
     let url = "/api/forms/" + form + "?t=" + template;
 
@@ -65,4 +82,23 @@ function onAddDeviceLoad(){
         });
     });
     
+}
+
+function removeDevice(ev){
+        
+    const csrftoken = getCookie("csrftoken") 
+
+    $.ajax({
+        type: "POST",
+        url: "/api/device/remove",
+        data: {
+            uuid: ev.getAttribute('device'),
+        },
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        success: function(data){
+            window.location.reload()
+        }
+    })
 }

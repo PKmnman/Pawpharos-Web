@@ -1,0 +1,29 @@
+<div class="d-flex col-12">
+                    
+    {% for device in user.profile.beacons.all %}
+        <div class="card me-2" style="width: 18rem">
+            <div class="card-body" style="height: 6rem">
+                <h5 class="card-title">{{ device.uuid }}</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Type</th>
+                            <td>Beacon</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Pet</th>
+                            <td>{{ device.pet.name|default:"Untracked" }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-primary card-link" device="{{ device.uuid }}">Edit</button>
+                <button class="btn btn-primary card-link" device="{{ device.uuid }}" onclick="removeDevice(this)">Remove</button>
+            </div>
+        </div>
+    {% endfor %}
+    
+    </div>

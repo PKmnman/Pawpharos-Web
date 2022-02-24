@@ -8,7 +8,7 @@ from tkinter import N
 
 from uuid import uuid4
 from django.shortcuts import redirect, render
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseNotAllowed, JsonResponse
 
 from django.contrib.auth import login, authenticate
 
@@ -80,19 +80,41 @@ def account(request, **kwargs):
 
 
 def register(request):
+    LOGGER.info("Received registration request.")
     if request.method == 'POST':
         form = forms.RegistrationForm(request.POST)
+        LOGGER.debug("Attempting to register user..")
         if form.is_valid() and form.register_user():
-
+            LOGGER.info("User registered! Logging in...")
             # login user after signing up
             raw_password = form.cleaned_data['password1']
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
- 
+            LOGGER.info("User [%s] has successfully logged in.", user.get_username())
             # redirect user to home page
             return redirect('home')
+        else:
+            LOGGER.debug("Failed to register user.")
     else:
         # On GET request, just load the empty form
         form = forms.RegistrationForm()
     return render(request, 'app/register.html', {'form': form})
 
+
+def remove_device(request):
+    assert isinstance(request, HttpRequest)
+
+    if request.method == "POST":
+        device = request.POST.get("uuid")
+        LOGGER.info("Removing device with UUID: %s", device)
+        try:
+            device_inst = models.BeaconDevice.objects.get(uuid=device)
+            device_inst.delete()
+            LOGGER.debug("Device removed!!")
+            return HttpResponse(status=200)
+        except:
+            LOGGER.exception("Failed to remove device!")
+    else:
+        LOGGER.error("Received GET request for POST function!!")
+        return HttpResponseNotAllowed()
+        

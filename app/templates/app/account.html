@@ -21,7 +21,7 @@
     <section>
         <div class="container-fluid">
             
-            <div class="row justify-content-between">
+            <div class="row justify-content-between mb-3">
                 <div class="col-2 me-auto">
                     <h3 class="mb-sm-2">Devices: </h3>
                 </div>
@@ -32,26 +32,15 @@
                         onclick="showAddDevice()">Add Device</button>
                 </div>
             </div>
+
+            <!-- Device Table -->
             <div class="row">
-                <table class="table-responsive">
-                    {% for device in user.beacons.all %}
-                    <tr>
-                        <td>{{ device.uuid }}</td>
-                        <td>
-                            {% if device.pet is None %}
-                            {{ device.pet.name }}
-                            {% else %}
-                            Untracked
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    <!-- Generate the table using context data -->
-                </table>
+                {% include "app/partial/device-card-layout.html" %}
             </div>
         </div>
     </section>
 
+    <!-- Off-Canvas Form -->
     <div id="formCanvasElement" tabindex="-1"class="offcanvas offcanvas-start">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="formCanvasLabel"></h5>
@@ -63,6 +52,9 @@
     </div>
 
 </div>
+
+{% csrf_token %}
+
 {% endblock %}
 
 {% block scripts %}
