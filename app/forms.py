@@ -141,16 +141,18 @@ class AddDeviceForm(forms.Form):
     def add_device(self, user):
         # Associate the device with the user
         code = self.cleaned_data['code']
+        name = self.cleaned_data['name']
 
         # Switch model based on device type
         if self.cleaned_data['device_type'] == "B":
             device = models.BeaconDevice(
                 uuid=code,
+                device_name=name,
                 user=user
             )
         else:
             device = models.Sniffer(
-                name=self.cleaned_data['name'],
+                name=name,
                 reg_code=code,
                 is_master=self.cleaned_data['is_master'],
                 owner=user

@@ -22,6 +22,7 @@ class UserProfile(models.Model):
 # Model for storing the uuid of beacon devices
 class BeaconDevice(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    device_name = models.TextField(max_length=64, default="Beacon Device")
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='beacons')
 
 # Stores data for pets
