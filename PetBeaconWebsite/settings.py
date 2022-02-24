@@ -6,6 +6,8 @@ Based on 'django-admin startproject' using Django 2.1.2.
 
 import os
 
+DEV_MODE = os.getenv('DEV_MODE', False)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,7 +15,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ccd6c2d8-6ab1-45ad-9565-a452f5001760'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEV_MODE
 
 ALLOWED_HOSTS = ['localhost', 'pawpharos.com', 'www.pawpharos.com']
 
@@ -31,7 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'storages',
-    'channels',
 ]
 
 # Middleware framework
@@ -68,14 +69,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PetBeaconWebsite.wsgi.application'
-ASGI_APPLICATION = 'PetBeaconWebsite.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DEV_DB = os.getenv('DEV_MODE') is not None
 
-if DEV_DB:
+if DEV_MODE:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -114,12 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "myproject.routing.channel_routing",
-    },
-}
 
 LOG_DIR = os.getenv('LOG_DIR', os.path.join(BASE_DIR, 'log'))
 
@@ -131,8 +124,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'default': {
-            'format': '[%(asctime)s] %(levelname)s: '
-                      '%(message)s',
+            'format': '[%(asctime)s] %(levelname)s: %(message)s',
         }
     },
     'handlers': {
@@ -146,7 +138,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['file'],
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
 }
 
@@ -158,22 +150,26 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-AWS_S3_CUSTOM_DOMAIN = 'static.pawpharos.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-#AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_ACCESS_KEY_ID = 'EYHTDDOJ2J66LL2EAM2M'
-#AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_SECRET_ACCESS_KEY = 'T3+/SNFgRQ2EJjKImUmm2fTZOtOPkz/do25/Iw1QiPk'
-AWS_STORAGE_BUCKET_NAME = 'pawpharos-static'
-AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
+if DEV_MODE:
+    STATIC_URL = '/static/'
+else:
+    AWS_S3_CUSTOM_DOMAIN = 'static.pawpharos.com'
 
-AWS_LOCATION = 'static'
-STATIC_URL = 'https://nyc3.digitaloceanspaces.com/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = 'pawpharos-static'
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+
+    AWS_LOCATION = 'static'
+    STATIC_URL = 'https://nyc3.digitaloceanspaces.com/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    
 
