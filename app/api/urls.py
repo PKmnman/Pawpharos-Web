@@ -1,4 +1,8 @@
 
+"""
+Definition of API specific urls for Pawpharos app
+"""
+
 
 from django.urls import path
 import app.views as views

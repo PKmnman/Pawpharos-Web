@@ -1,3 +1,6 @@
+"""
+Definition of view function that are accessed asyncronously
+"""
 
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.template.loader import render_to_string
