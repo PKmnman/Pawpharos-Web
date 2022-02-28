@@ -162,10 +162,8 @@ AWS_S3_CUSTOM_DOMAIN = 'static.pawpharos.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-#AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_ACCESS_KEY_ID = 'EYHTDDOJ2J66LL2EAM2M'
-#AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_SECRET_ACCESS_KEY = 'T3+/SNFgRQ2EJjKImUmm2fTZOtOPkz/do25/Iw1QiPk'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'pawpharos-static'
 AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
