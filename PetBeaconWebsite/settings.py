@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'storages',
-    'channels',
+    #'channels',
 ]
 
 # Middleware framework
@@ -68,7 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PetBeaconWebsite.wsgi.application'
-#ASGI_APPLICATION = 'PetBeaconWebsite.asgi.application'
+ASGI_APPLICATION = 'PetBeaconWebsite.asgi.application'
 
 
 LOGIN_URL = '/login/'
@@ -90,12 +90,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+'''
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
         "ROUTING": "myproject.routing.channel_routing",
     },
 }
+'''
 
 LOG_DIR = os.getenv('LOG_DIR', os.path.join(BASE_DIR, 'log'))
 
