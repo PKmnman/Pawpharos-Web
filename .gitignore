@@ -7,6 +7,9 @@
 .github/
 .vscode/
 
+# Static File Directory
+app/static/
+
 # Virtual Python Environments
 venv/
 env/
