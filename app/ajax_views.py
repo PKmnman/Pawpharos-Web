@@ -54,7 +54,7 @@ def add_new_device(request):
                 # Return a JsonResponse to the ajax method that contains a clean form
                 return JsonResponse({
                     'status': 1,
-                    'content': render_to_string('app/add-device-form.html', { 'form':forms.AddDeviceForm() })
+                    'content': render_to_string('app/register-device-modal.html', { 'form':forms.AddDeviceForm() })
                 })
             except:
                 LOGGER.exception("Exception occured adding device to profile")  
@@ -63,7 +63,7 @@ def add_new_device(request):
             
             return JsonResponse({
                 'status': 0,
-                'content': render_to_string('app/add-device-form.html', context={'form':form }, request=request)
+                'content': render_to_string('app/register-device-modal.html', context={'form':form }, request=request)
             })
     else:
         # Only accept POST request through this view

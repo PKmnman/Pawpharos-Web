@@ -1,5 +1,4 @@
 {% extends "app/layout.html" %}
-<!-- Make sure that the page redirects if the user isn't authenticated -->
 
 {% load static %}
 
@@ -29,7 +28,7 @@
                     <button type="button" class="btn btn-primary ms-auto"
                         data-bs-target="#formCanvasElement"
                         data-bs-toggle="offcanvas"
-                        onclick="showAddDevice()">Add Device</button>
+                        onclick="showAddDevice()">Register Device</button>
                 </div>
             </div>
 
@@ -40,16 +39,8 @@
         </div>
     </section>
 
-    <!-- Off-Canvas Form -->
-    <div id="formCanvasElement" tabindex="-1"class="offcanvas offcanvas-start">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="formCanvasLabel"></h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div id="formCanvasBody" class="offcanvas-body">
-
-        </div>
-    </div>
+    <!-- Modal -->
+    <div id="formModal" class="modal fade" aria-hidden="true"></div>
 
 </div>
 
