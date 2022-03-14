@@ -4,6 +4,7 @@ Definition of models.
 
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from uuid import uuid4
 
@@ -35,7 +36,7 @@ class BeaconDevice(models.Model):
 
     # This is the UUID the beacon broadcasts
     bc_uuid = models.UUIDField("Broadcast UUID", null=False, unique=True)
-    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='beacons')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='beacons')
 
 
 # Stores data about registered sniffers
@@ -44,7 +45,7 @@ class Sniffer(models.Model):
     serial_code = models.SlugField(max_length=19)
     is_master = models.BooleanField(default=False)
     owner = models.ForeignKey(
-        UserProfile,
+        User,
         null=True, 
         on_delete=models.SET_NULL, 
         related_name="sniffers")
@@ -55,14 +56,14 @@ class Location(models.Model):
     description = models.TextField(default="")
     sniffer = models.OneToOneField(Sniffer, on_delete=models.SET_NULL, null=True)
     # The account this location belongs to
-    account = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="locations")
+    account = models.ForeignKey(User, on_delete=models.CASCADE, related_name="locations")
 
 
 # Stores data for pets
 class Pet(models.Model):
     name = models.TextField()
     species = models.TextField()
-    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='pets')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pets')
     beacon = models.OneToOneField(
         BeaconDevice, 
         null=True,
@@ -74,7 +75,7 @@ class Pet(models.Model):
 class TrackingEvent(models.Model):
     time = models.DateTimeField()
     # Beacon ID - The beacon detected (1:N)
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="tracking")
+    beacon = models.ForeignKey(BeaconDevice, on_delete=models.CASCADE, related_name="events")
     # Sniffer ID - The sniffer that detected it (1:N)
     sniffer = models.ForeignKey(Sniffer, on_delete=models.CASCADE, related_name="events")
 
