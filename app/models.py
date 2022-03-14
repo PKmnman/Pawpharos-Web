@@ -55,7 +55,7 @@ class Location(models.Model):
     description = models.TextField(default="")
     sniffer = models.OneToOneField(Sniffer, on_delete=models.SET_NULL, null=True)
     # The account this location belongs to
-    account = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    account = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="locations")
 
 
 # Stores data for pets
