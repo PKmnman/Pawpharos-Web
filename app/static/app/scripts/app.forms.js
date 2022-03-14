@@ -76,7 +76,7 @@ function onAddDeviceLoad(){
     
 }
 
-function removeDevice(ev){
+function unregisterDevice(ev){
         
     const csrftoken = getCookie("csrftoken") 
 
@@ -84,7 +84,7 @@ function removeDevice(ev){
         type: "POST",
         url: "/api/device/remove",
         data: {
-            uuid: ev.getAttribute('device'),
+            device_id: ev.getAttribute('device'),
         },
         beforeSend: function(xhr){
             xhr.setRequestHeader("X-CSRFToken", csrftoken);

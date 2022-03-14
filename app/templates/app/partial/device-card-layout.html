@@ -25,7 +25,7 @@
             <div class="card-body">
                 <button class="btn btn-primary card-link" device="{{ device }}">Edit</button>
                 {% if device.is_master %}
-                <button class="btn btn-primary card-link" device="{{ device }}" onclick="removeDevice(this)">Unregister</button>
+                <button class="btn btn-primary card-link" device="{{ device.id }}" onclick="unregisterDevice(this)">Unregister</button>
                 {% elif user.profile.locations.exists %}
                 <button class="btn btn-primary card-link" device="{{ device }}">Assign...</button>
                 {% endif %}

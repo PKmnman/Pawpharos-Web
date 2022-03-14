@@ -105,10 +105,10 @@ def remove_device(request):
     assert isinstance(request, HttpRequest)
 
     if request.method == "POST":
-        device = request.POST.get("uuid")
+        device = request.POST.get("device_id")
         LOGGER.info("Removing device with UUID: %s", device)
         try:
-            device_inst = models.BeaconDevice.objects.get(uuid=device)
+            device_inst = models.BeaconDevice.objects.get(id=device)
             device_inst.delete()
             LOGGER.debug("Device removed!!")
             return HttpResponse(status=200)
