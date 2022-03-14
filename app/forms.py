@@ -101,21 +101,8 @@ class RegistrationForm(UserCreationForm):
 # Form for adding a new device to the account
 class AddDeviceForm(forms.Form):
 
-    device_type = forms.ChoiceField(
-        choices=[
-            ('B', 'Beacon'),
-            ('S', 'Sniffer'),
-        ],
-        label=_('Device Type'),
-        widget=forms.Select({
-            'class': 'form-select',
-            'aria-label': 'Device Type Select',
-            'onchange': 'onDeviceChange()'
-        }),
-    )
-
     name = forms.CharField(
-        label=_('Device Name'),
+        label=_('Label'),
         max_length=64,
         widget=forms.TextInput({
             'class': 'form-control'
@@ -123,19 +110,12 @@ class AddDeviceForm(forms.Form):
     )
 
     code = forms.CharField(
-        label=_('Device Code'),
-        max_length=36,
+        label=_('Serial Code'),
+        max_length=19,
         widget=forms.TextInput({
             'class': 'form-control',
-            'placeholder': 'snff-XXXX-XXXX-XXXX',
+            'placeholder': 'XXXX-0000-0000-0000',
         })
-    )
-
-    is_master = forms.BooleanField(
-        label=_('Is Master?'),
-        widget= forms.CheckboxInput(),
-        initial=False,
-        required=False
     )
 
     def add_device(self, user):
@@ -143,22 +123,9 @@ class AddDeviceForm(forms.Form):
         code = self.cleaned_data['code']
         name = self.cleaned_data['name']
 
-        # Switch model based on device type
-        if self.cleaned_data['device_type'] == "B":
-            device = models.BeaconDevice(
-                uuid=code,
-                device_name=name,
-                user=user
-            )
-        else:
-            device = models.Sniffer(
-                name=name,
-                reg_code=code,
-                is_master=self.cleaned_data['is_master'],
-                owner=user
-            )
-
+        device = models.Sniffer.objects.create(device_name=name, serial_code=code, owner=user)
         device.save()
+        
 
 form_class = {
     'AddDeviceForm': AddDeviceForm,

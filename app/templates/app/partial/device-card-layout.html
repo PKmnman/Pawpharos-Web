@@ -1,11 +1,14 @@
 <div class="d-flex col-12">
                     
-    {% for device in user.profile.beacons.all %}
+    {% for device in user.profile.sniffers.all %}
         <div class="card me-2" style="width: 18rem">
             <div class="card-body" style="height: 6rem">
-                <h5 class="card-title">{{ device.uuid }}</h5>
+                <h5 class="card-title">{{ device.device_name }}</h5>
+                {% if device.is_master %}
+                <h6><span class="text-muted">Master</span></h6>
+                {% endif %}
             </div>
-            <div class="card-body">
+            <div class="card-body" style="height: 12rem">
                 <table class="table table-borderless">
                     <tbody>
                         <tr>
@@ -20,8 +23,12 @@
                 </table>
             </div>
             <div class="card-body">
-                <button class="btn btn-primary card-link" device="{{ device.uuid }}">Edit</button>
-                <button class="btn btn-primary card-link" device="{{ device.uuid }}" onclick="removeDevice(this)">Remove</button>
+                <button class="btn btn-primary card-link" device="{{ device }}">Edit</button>
+                {% if device.is_master %}
+                <button class="btn btn-primary card-link" device="{{ device }}" onclick="removeDevice(this)">Unregister</button>
+                {% elif user.profile.locations.exists %}
+                <button class="btn btn-primary card-link" device="{{ device }}">Assign...</button>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

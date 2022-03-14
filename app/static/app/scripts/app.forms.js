@@ -40,21 +40,13 @@ function showAddDevice() {
     // Wrap in an if statement to prevent multiple executions
     if(currentForm != "AddDeviceForm"){
         // Set the label of the off-canvas element
-        $("#formCanvasLabel")[0].innerHTML = "Add New Device";
-        loadFormTemplate("#formCanvasBody", "AddDeviceForm", "add-device-form", onAddDeviceLoad);
+        loadFormTemplate("#formModal", "AddDeviceForm", "add-device-form", onAddDeviceLoad);
         currentForm = "AddDeviceForm"
     }
-}
 
-function onDeviceChange(){
-    elem = document.getElementById("id_device_type")
-    if(elem.value == "S"){
-        document.getElementById("masterToggle").removeAttribute("hidden");
-    }else{
-        document.getElementById("masterToggle").setAttribute("hidden", "");
-    }
+    var modal = bootstrap.Modal(document.getElementById('formModal'));
+    modal.toggle();
 }
-
 
 function onAddDeviceLoad(){
 

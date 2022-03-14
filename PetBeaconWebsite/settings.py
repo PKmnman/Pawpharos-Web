@@ -17,7 +17,7 @@ SECRET_KEY = 'ccd6c2d8-6ab1-45ad-9565-a452f5001760'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEV_MODE
 
-ALLOWED_HOSTS = ['localhost', 'pawpharos.com', 'www.pawpharos.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 APPEND_SLASH = False
 
@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'storages',
+    #'channels',
 ]
 
 # Middleware framework
@@ -70,29 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'PetBeaconWebsite.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-
-if DEV_MODE:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_NAME'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': 'db',
-            'PORT': 5432,
-        }
-    }
-
 
 LOGIN_URL = '/login/'
 
@@ -113,6 +91,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+'''
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "myproject.routing.channel_routing",
+    },
+}
+'''
 
 LOG_DIR = os.getenv('LOG_DIR', os.path.join(BASE_DIR, 'log'))
 
@@ -151,25 +137,9 @@ USE_L10N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-if DEV_MODE:
-    STATIC_URL = '/static/'
-else:
-    AWS_S3_CUSTOM_DOMAIN = 'static.pawpharos.com'
 
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = 'pawpharos-static'
-    AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
-
-    AWS_LOCATION = 'static'
-    STATIC_URL = 'https://nyc3.digitaloceanspaces.com/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    
+STATIC_URL = 'static/'
 
