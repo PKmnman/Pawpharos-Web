@@ -8,17 +8,6 @@ from django.contrib.auth.models import User
 
 from uuid import uuid4
 
-# Model for storing user-related data
-class UserProfile(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid4)
-    account = models.OneToOneField(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE,
-        unique=True,
-        name='account', 
-        related_name='profile',
-        null=True)
-
 
 # Model for storing the uuid of beacon devices
 class BeaconDevice(models.Model):
@@ -28,15 +17,9 @@ class BeaconDevice(models.Model):
         IBEACON = 'IB', 'iBeacon' # For future iBeacon support
 
     device_name = models.TextField(max_length=64, default="Beacon Device", null=True)
-    # The device model (Will be more specific later)
-    model = models.CharField(
-        max_length=125,
-        choices=ModelName.choices,
-        default=ModelName.DEV_MODEL
-    )
 
     # This is the UUID the beacon broadcasts
-    bc_uuid = models.UUIDField("Broadcast UUID", null=False, unique=True, default=uuid4())
+    bc_uuid = models.UUIDField("Broadcast UUID", null=False, unique=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='beacons')
 
 
