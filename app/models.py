@@ -30,12 +30,13 @@ class BeaconDevice(models.Model):
     device_name = models.TextField(max_length=64, default="Beacon Device", null=True)
     # The device model (Will be more specific later)
     model = models.CharField(
+        max_length=125,
         choices=ModelName.choices,
         default=ModelName.DEV_MODEL
     )
 
     # This is the UUID the beacon broadcasts
-    bc_uuid = models.UUIDField("Broadcast UUID", null=False, unique=True)
+    bc_uuid = models.UUIDField("Broadcast UUID", null=False, unique=True, default=uuid4())
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='beacons')
 
 

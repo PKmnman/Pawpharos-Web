@@ -23,7 +23,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function loadFormTemplate(target, form, template, callback){
+function loadFormTemplate(target, form, template, callback) {
     let url = "/api/forms/" + form + "?t=" + template;
 
     $.get(url, function (data){
@@ -40,11 +40,11 @@ function showAddDevice() {
     // Wrap in an if statement to prevent multiple executions
     if(currentForm != "AddDeviceForm"){
         // Set the label of the off-canvas element
-        loadFormTemplate("#formModal", "AddDeviceForm", "add-device-form", onAddDeviceLoad);
+        loadFormTemplate("#formModal", "AddDeviceForm", "register-device-modal", onAddDeviceLoad);
         currentForm = "AddDeviceForm"
     }
 
-    var modal = bootstrap.Modal(document.getElementById('formModal'));
+    var modal = new bootstrap.Modal(document.getElementById('formModal'));
     modal.toggle();
 }
 

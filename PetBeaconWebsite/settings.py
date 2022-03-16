@@ -71,6 +71,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'PetBeaconWebsite.wsgi.application'
 ASGI_APPLICATION = 'PetBeaconWebsite.asgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 LOGIN_URL = '/login/'
 
