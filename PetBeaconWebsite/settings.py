@@ -21,6 +21,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 APPEND_SLASH = False
 
+DEBUG = True
+
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
@@ -34,7 +36,6 @@ INSTALLED_APPS = [
     'app',
     'storages',
     'rest_framework',
-    #'channels',
 ]
 
 # Middleware framework
@@ -98,14 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-'''
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "myproject.routing.channel_routing",
-    },
-}
-'''
 
 LOG_DIR = os.getenv('LOG_DIR', os.path.join(BASE_DIR, 'log'))
 
@@ -148,5 +141,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
