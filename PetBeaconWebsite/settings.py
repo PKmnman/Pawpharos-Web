@@ -6,6 +6,8 @@ Based on 'django-admin startproject' using Django 2.1.2.
 
 import os
 
+DEV_MODE = os.getenv('DEV_MODE', False)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,7 +15,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ccd6c2d8-6ab1-45ad-9565-a452f5001760'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEV_MODE
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -69,7 +71,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PetBeaconWebsite.wsgi.application'
-ASGI_APPLICATION = 'PetBeaconWebsite.asgi.application'
 
 DATABASES = {
     'default': {
@@ -116,8 +117,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'default': {
-            'format': '[%(asctime)s] %(levelname)s: '
-                      '%(message)s',
+            'format': '[%(asctime)s] %(levelname)s: %(message)s',
         }
     },
     'handlers': {
@@ -131,7 +131,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['file'],
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
 }
 
