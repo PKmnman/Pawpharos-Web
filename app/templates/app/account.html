@@ -9,11 +9,30 @@
             <h2>Account Details</h2>
             <hr/>
             <div class="row">
+                <div class="col-md-1 font-oxygen fw-bold fs-md-4">
+                    <span>Name: </span>   
+                </div>
                 <div class="col-md-4 font-oxygen fs-md-4">
-                    <span>Name: </span>
                     <span>{{user.first_name}} {{user.last_name}}</span>
                 </div>
+                
             </div>
+            <div class="row">
+                <div class="col-md-1 font-oxygen fw-bold fs-md-4">
+                    <span>Username: </span>
+                </div>
+                <div class="col-md-4 font-oxygen fs-md-4">
+                    <span>{{user.username}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 font-oxygen fw-bold fs-md-4">
+                    <span>Email: </span>
+                </div>
+                <div class="col-md-4 font-oxygen fs-md-4">
+                    <span>{{user.email}}</span>
+                </div>
+
         </div>
     </section>
 
@@ -25,9 +44,11 @@
                     <h3 class="mb-sm-2">Devices: </h3>
                 </div>
                 <div class="col-6 ms-auto d-flex flex-row">
-                    <button type="button" class="btn btn-primary ms-auto" bs-data-toggle="modal" bs-data-target="#formModal">Register Device</button>
+                    <button type="button" class="btn btn-primary ms-auto" onclick="showRegisterDevice()">Register Device</button>
                 </div>
             </div>
+
+            <hr/>
 
             <!-- Device Table -->
             <div class="row">
@@ -51,7 +72,4 @@
 
 <script src="{% static 'app/scripts/app.forms.js' %}" type="application/javascript"></script>
 
-<script type="text/javascript">
-    var modal = new bootstrap.Modal(document.getElementById("formModal"))
-</script>
 {% endblock %}

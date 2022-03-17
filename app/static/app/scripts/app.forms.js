@@ -36,16 +36,8 @@ function loadFormTemplate(target, form, template, callback) {
 
 // Add Device Functions
 
-function showAddDevice() {
-    // Wrap in an if statement to prevent multiple executions
-    if(currentForm != "AddDeviceForm"){
-        // Set the label of the off-canvas element
-        loadFormTemplate("#formModal", "AddDeviceForm", "register-device-modal", onAddDeviceLoad);
-        currentForm = "AddDeviceForm"
-    }
-
-    var modal = new bootstrap.Modal(document.getElementById('formModal'));
-    modal.toggle();
+function showRegisterDevice() {
+    $('#formModal').modal('show')
 }
 
 function onAddDeviceLoad(){

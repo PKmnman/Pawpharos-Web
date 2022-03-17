@@ -74,7 +74,7 @@ def account(request, **kwargs):
             'app/account.html',
             {
                 'title':'Pawpharos - Account Details',
-                'profile': models.UserProfile.objects.get(account=request.user)
+                'form': forms.AddDeviceForm()
             }
         )
 
