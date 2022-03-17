@@ -3,8 +3,8 @@ import app.models as models
 
 class UserSerializer(serializers.ModelSerializer):
 	
-	sniffers = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Sniffer.objects.all())
-	locations = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Location.objects.all())
+	sniffers = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Sniffer.objects.all(), required=False)
+	locations = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Location.objects.all(), required=False)
 
 	class Meta:
 		model = models.User
