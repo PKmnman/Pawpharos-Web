@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'app',
     'storages',
     'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 # Middleware framework
@@ -128,6 +129,13 @@ LOGGING = {
     },
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
@@ -135,7 +143,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 
 # Static files (CSS, JavaScript, Images)
