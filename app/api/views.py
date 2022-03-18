@@ -21,7 +21,7 @@ class SnifferApiView(APIView):
 
 	def get_object(self, sniffer_id, user_id):
 		try:
-			return models.Sniffer.objects.get(id=sniffer_id, owner = models.UserProfile.objects.get(id=user_id).id)
+			return models.Sniffer.objects.get(id=sniffer_id, owner = models.User.objects.get(id=user_id).id)
 		except models.Sniffer.DoesNotExist:
 			return None
 

@@ -1,0 +1,93 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster:wght@300;400;700&display=swap');
+@import "variables";
+
+/* Font families */
+$fontOxygen: Oxygen, sans-serif;
+$fontLobster: Lobster, cursive;
+
+$fonts: ("oxygen": $fontOxygen, "lobster": $fontLobster);
+
+@function add-font($fontMap) {
+	$fonts: map-merge($fonts, $fontMap)
+}
+
+// utility styles for fonts
+
+@each $name, $value in $fonts {
+	.font-#{$name} {
+		font-family: $value;
+	}
+}
+
+main {
+  padding-top: 4.25rem;
+  padding-bottom: 3rem;
+  color: #5a5a5a;
+  font-family: $fontOxygen;
+}
+
+.rounded-circle > img {
+    border-radius: inherit;
+    overflow: hidden;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+button.bg-primary {
+    background-color: $bg-primary !important;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.load-graphic {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.embiggen {
+    transition: transform .2s;
+}
+
+.embiggen:hover{
+    transform: scale(1.25);
+}
+

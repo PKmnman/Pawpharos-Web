@@ -8,7 +8,8 @@
 .vscode/
 
 # Static File Directory
-app/static/
+app/static/images/
+app/static/fonts/
 
 # Virtual Python Environments
 venv/

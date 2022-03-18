@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block styles %}
-<link rel='stylesheet' href="{% static "app/content/carousel.css" %}">
+<link type="text/css" rel='stylesheet' href="{% static "app/content/new-carousel.css" %}"/>
+
 <style>
     .bd-placeholder-img {
         font-size: 1.125rem;
@@ -17,14 +18,6 @@
             font-size: 3.5rem;
         }
     }
-
-    .carousel-banner {
-        position: absolute !important;
-        left: 50% !important;
-        object-fit:cover;
-        min-height:100% !important;
-        transform: translate(-50%) !important;
-    }
 </style>
 {% endblock %}
 <!---->
@@ -38,15 +31,7 @@
     <div class="carousel-inner">
         <div class="carousel-item active flex-center">
             <div class="position-relative">
-                <picture>
-                    <source media="(min-width: 1400px)" srcset="{% static "app/images/bella-banner-xxl.png" %}">
-                    <source media="(min-width: 1200px)" srcset="{% static "app/images/bella-banner-xxl.png" %}">
-                    <source media="(min-width: 992px)" srcset="{% static "app/images/bella-banner-xl.png" %}">
-                    <source media="(min-width: 768px)" srcset="{% static "app/images/bella-banner-lg.png" %}">
-                    <source media="(min-width: 576px)" srcset="{% static "app/images/bella-banner-md.png" %}">
-                    
-                    <img style="height:100%;object-fit:cover;" src="{% static "app/images/bella-banner-sm.png" %}">
-                </picture>
+                <div class="banner-bella"></div>
             </div>
             
             <div class="container">
@@ -59,15 +44,7 @@
         </div>
         <div class="carousel-item flex-center">
             <div class="position-relative">
-                <picture>
-                    <source media="(min-width: 1400px)" srcset="{% static "app/images/princess-fancy-xxl.png" %}">
-                    <source media="(min-width: 1200px)" srcset="{% static "app/images/princess-max.png" %}">
-                    <source media="(min-width: 992px)" srcset="{% static "app/images/princess-xl.png" %}">
-                    <source media="(min-width: 768px)" srcset="{% static "app/images/princess-lg.png" %}">
-                    <source media="(min-width: 576px)" srcset="{% static "app/images/princess-md.png" %}">
-                    
-                    <img class="carousel-banner" src="{% static "app/images/princess-sm.png" %}">
-                </picture>
+                <div class="banner-princess"></div>
             </div>
 
             <div class="container">
@@ -112,7 +89,7 @@
     <div class="row">
     <div class="col-lg-4">
         <span class="rounded-circle">
-            <img class="img-fluid" width="140px" height="140px" src="{% static "app/images/buddha_400sq.png" %}">
+            <img class="img-fluid" width="140px" height="140px" src="{% static "app/images/buddha_400sq.png" %}" aria-hidden="true">
         </span>
 
         <h2>Check In Anywhere</h2>
@@ -121,7 +98,7 @@
     </div>
     <div class="col-lg-4">
         <span class="rounded-circle">
-            <img class="img-fluid" width="140px" height="140px" src="{% static "app/images/bella_02_square.jpg" %}">
+            <img class="img-fluid" width="140px" height="140px" src="{% static "app/images/bella_02_square.jpg" %}" aria-hidden="true">
         </span>
         
         <h2>Sniff 'Em Out</h2>
@@ -155,7 +132,6 @@
     </div>
     <div class="col-md-5 order-md-1">
         <img src="{% static 'app/images/bluetooth_icon.svg' %}" width="500" height="500" aria-label="Bluetooth Logo"/>
-
     </div>
     </div>
 
