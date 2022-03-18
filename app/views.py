@@ -4,7 +4,6 @@ Definition of views.
 
 from datetime import datetime
 import sys
-from tkinter import N
 
 from uuid import uuid4
 from django.shortcuts import redirect, render
