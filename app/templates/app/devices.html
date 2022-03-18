@@ -1,0 +1,67 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block scripts %}
+<script src="{% static 'app/scripts/app.forms.js' %}" type="application/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+            <div class="row justify-content-between mb-3">
+                <div class="col-2 me-auto">
+                    <h3 class="mb-sm-2">Sniffers: </h3>
+                </div>
+                <div class="col-6 ms-auto d-flex flex-row">
+                    <button type="button" class="btn btn-primary ms-auto" onclick="showRegisterDevice()">Register Sniffer</button>
+                </div>
+            </div>
+
+            <hr/>
+
+            <!-- Device Table -->
+            <div class="row">
+                <div class="d-flex col-12">
+
+                    {% for device in user.profile.sniffers.all %}
+                        <div class="card me-2" style="width: 18rem">
+                            <div class="card-body" style="height: 6rem">
+                                <h5 class="card-title">{{ device.device_name }}</h5>
+                                {% if device.is_master %}
+                                <h6><span class="text-muted">Master</span></h6>
+                                {% endif %}
+                            </div>
+                            <div class="card-body" style="height: 12rem">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Type</th>
+                                            <td>Beacon</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Pet</th>
+                                            <td>{{ device.pet.name|default:"Untracked" }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-body">
+                                <button class="btn btn-primary card-link" device="{{ device }}">Edit</button>
+                                {% if device.is_master %}
+                                <button class="btn btn-primary card-link" device="{{ device.id }}" onclick="unregisterDevice(this)">Unregister</button>
+                                {% elif user.profile.locations.exists %}
+                                <button class="btn btn-primary card-link" device="{{ device }}">Assign...</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+    </div>
+
+    <div id="formModal" class="modal fade" role="dialog" aria-hidden="true">
+        {% include "app/partial/register-device-modal.html" %}
+    </div>
+
+{% endblock %}
