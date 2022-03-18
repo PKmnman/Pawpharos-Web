@@ -6,6 +6,7 @@
 .ssh/
 .github/
 .vscode/
+.idea/
 
 # Static File Directory
 app/static/images/
