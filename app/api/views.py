@@ -34,10 +34,10 @@ class SnifferApiView(APIView):
 def create_sniffer(request):
 
 	if request.method == 'PUT':
-		device_name = request.REQUEST["device_name"]
+		device_name = request.data["device_name"]
 		owner = request.user
-		is_master = request.REQUEST["is_master"]
-		serial_code = request.REQUEST["serial"]
+		is_master = request.data["is_master"]
+		serial_code = request.data["serial"]
 
 		sniffer = models.Sniffer.objects.create(device_name=device_name, serial_code=serial_code, is_master=is_master,
 												owner=owner)
