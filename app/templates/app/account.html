@@ -1,5 +1,7 @@
 {% extends "app/layout.html" %}
-<!-- Make sure that the page redirects if the user isn't authenticated -->
+
+{% load static %}
+
 {% block content %}
 <div class="container-fluid">
     <section class="my-3">
@@ -7,9 +9,28 @@
             <h2>Account Details</h2>
             <hr/>
             <div class="row">
+                <div class="col-md-1 font-oxygen fw-bold fs-md-4">
+                    <span>Name: </span>   
+                </div>
                 <div class="col-md-4 font-oxygen fs-md-4">
-                    <span>Name: </span>
                     <span>{{user.first_name}} {{user.last_name}}</span>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-1 font-oxygen fw-bold fs-md-4">
+                    <span>Username: </span>
+                </div>
+                <div class="col-md-4 font-oxygen fs-md-4">
+                    <span>{{user.username}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 font-oxygen fw-bold fs-md-4">
+                    <span>Email: </span>
+                </div>
+                <div class="col-md-4 font-oxygen fs-md-4">
+                    <span>{{user.email}}</span>
                 </div>
             </div>
         </div>
@@ -18,33 +39,37 @@
     <section>
         <div class="container-fluid">
             
-            <div class="row justify-content-between">
+            <div class="row justify-content-between mb-3">
                 <div class="col-2 me-auto">
                     <h3 class="mb-sm-2">Devices: </h3>
                 </div>
-                <div class="col-6 ms-auto d-flex flex-row">
-                    <button type="button" class="btn btn-primary ms-auto">Add Device</button>
-                </div>
+                <!--<div class="col-6 ms-auto d-flex flex-row">
+                    <button type="button" class="btn btn-primary ms-auto" onclick="showRegisterDevice()">Register Device</button>
+                </div>-->
             </div>
+
+            <hr/>
+
+            <!-- Device Table -->
             <div class="row">
-                <table class="table-responsive">
-                    {% for device in user.beacons.all %}
-                    <tr>
-                        <td>{{ device.uuid }}</td>
-                        <td>
-                            {% if device.pet is None %}
-                            {{ device.pet.name }}
-                            {% else %}
-                            Untracked
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    <!-- Generate the table using context data -->
-                </table>
+                {% include "app/partial/device-card-layout.html" %}
             </div>
         </div>
     </section>
 
+    <!-- Modal -->
+    <div id="formModal" class="modal fade" role="dialog" aria-hidden="true">
+        {% include "app/partial/register-device-modal.html" %}
+    </div>
+
 </div>
+
+{% csrf_token %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'app/scripts/app.forms.js' %}" type="application/javascript"></script>
+
 {% endblock %}

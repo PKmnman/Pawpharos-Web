@@ -1,0 +1,15 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster:wght@300;400;700&display=swap');
+
+/* Font families */
+$fontOxygen: Oxygen, sans-serif;
+$fontLobster: Lobster, cursive;
+
+/* Color Pallette */
+
+$bg-dark: rgb(33,37,41);
+$bg-primary: #70A37FFF;
+$bg-secondary: desaturate(#3FA7D6FF, 50);
+
+$bg-error: #EE6352FF;

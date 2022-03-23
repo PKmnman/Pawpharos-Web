@@ -6,6 +6,11 @@
 .ssh/
 .github/
 .vscode/
+.idea/
+
+# Static File Directory
+app/static/images/
+app/static/fonts/
 
 # Virtual Python Environments
 venv/

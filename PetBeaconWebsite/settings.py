@@ -6,6 +6,8 @@ Based on 'django-admin startproject' using Django 2.1.2.
 
 import os
 
+DEV_MODE = os.getenv('DEV_MODE', False)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,11 +15,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ccd6c2d8-6ab1-45ad-9565-a452f5001760'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEV_MODE
 
-ALLOWED_HOSTS = ['localhost', 'pawpharos.com', 'www.pawpharos.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 APPEND_SLASH = False
+
+DEBUG = True
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
@@ -31,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'storages',
-    'channels',
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 # Middleware framework
@@ -68,31 +73,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PetBeaconWebsite.wsgi.application'
-ASGI_APPLICATION = 'PetBeaconWebsite.asgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DEV_DB = os.getenv('DEV_MODE') is not None
-
-if DEV_DB:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_NAME'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': 'db',
-            'PORT': 5432,
-        }
-    }
+}
+
+LOGIN_URL = '/login/'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -111,13 +100,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "myproject.routing.channel_routing",
+
+LOG_DIR = os.getenv('LOG_DIR', os.path.join(BASE_DIR, 'log'))
+
+if not os.path.isdir(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '[%(asctime)s] %(levelname)s: %(message)s',
+        }
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'pawpharos.log'),
+            'when': 'midnight',
+            'backupCount': 60,
+            'formatter': 'default',
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
     },
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -127,20 +144,9 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-AWS_S3_CUSTOM_DOMAIN = 'static.pawpharos.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = 'pawpharos-static'
-AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
 
-AWS_LOCATION = 'static'
-STATIC_URL = 'https://nyc3.digitaloceanspaces.com/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_URL = '/static/'
 

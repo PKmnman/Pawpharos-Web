@@ -1,0 +1,36 @@
+<div class="d-flex col-12">
+                    
+    {% for device in user.profile.sniffers.all %}
+        <div class="card me-2" style="width: 18rem">
+            <div class="card-body" style="height: 6rem">
+                <h5 class="card-title">{{ device.device_name }}</h5>
+                {% if device.is_master %}
+                <h6><span class="text-muted">Master</span></h6>
+                {% endif %}
+            </div>
+            <div class="card-body" style="height: 12rem">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Type</th>
+                            <td>Beacon</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Pet</th>
+                            <td>{{ device.pet.name|default:"Untracked" }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-primary card-link" device="{{ device }}">Edit</button>
+                {% if device.is_master %}
+                <button class="btn btn-primary card-link" device="{{ device.id }}" onclick="unregisterDevice(this)">Unregister</button>
+                {% elif user.profile.locations.exists %}
+                <button class="btn btn-primary card-link" device="{{ device }}">Assign...</button>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    
+    </div>

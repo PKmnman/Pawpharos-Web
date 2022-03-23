@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block styles %}
-<link rel='stylesheet' href="{% static "app/content/carousel.css" %}">
+<link type="text/css" rel='stylesheet' href="{% static "app/content/new-carousel.css" %}"/>
+
 <style>
     .bd-placeholder-img {
         font-size: 1.125rem;
@@ -30,26 +31,21 @@
     <div class="carousel-inner">
         <div class="carousel-item active flex-center">
             <div class="position-relative">
-                <picture>
-                    <source media="(min-width: 1200px)" srcset="{% static "app/images/bella-banner-xxl.jpg" %}">
-                    <source media="(min-width: 992px)" srcset="{% static "app/images/bella-banner-xl.jpg" %}">
-                    <source media="(min-width: 768px)" srcset="{% static "app/images/bella-banner-lg.jpg" %}">
-                    <source media="(min-width: 576px)" srcset="{% static "app/images/bella-banner-md.jpg" %}">
-                    
-                    <img class="position-relative translate-middle-x w-auto" style="left:50%;top:0;height:512px" src="{% static "app/images/rottweiler_01.jpg" %}">
-                </picture>
+                <div class="banner-bella"></div>
             </div>
             
             <div class="container">
                 <div class="carousel-caption text-start">
                     <h1 class="font-oxygen">Track Them</h1>
                     <p>Ohhh, look how cute she is, how precious a bean!!!</p>
-                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Create an Account Today!</a></p>
                 </div>
             </div>
         </div>
-        <div class="carousel-item">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        <div class="carousel-item flex-center">
+            <div class="position-relative">
+                <div class="banner-princess"></div>
+            </div>
 
             <div class="container">
                 <div class="carousel-caption">
@@ -92,33 +88,52 @@
     <!-- Three columns of text below the carousel -->
     <div class="row">
     <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <span class="rounded-circle">
+            <img class="img-fluid" width="140px" height="140px" src="{% static "app/images/buddha_400sq.png" %}" aria-hidden="true">
+        </span>
 
-        <h2>Heading</h2>
-        <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+        <h2>Check In Anywhere</h2>
+        <p>Tracking data can be accessed wherever you go using any modern web browser.</p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
+    </div>
     <div class="col-lg-4">
-        <!--<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>-->
-        <span class="rounded-circle" style="width:140px;height:140px;">
-            <img class="img-fluid" width=140px height=140px src="{% static "app/images/bella_02_square.jpg" %}">
+        <span class="rounded-circle">
+            <img class="img-fluid" width="140px" height="140px" src="{% static "app/images/bella_02_square.jpg" %}" aria-hidden="true">
         </span>
         
-        <h2>It's Bella!!</h2>
-        <p>A wild Bella has appeared! Do you have the willpower to track her down? Use your Fur-Tector to see where she's been.</p>
+        <h2>Sniff 'Em Out</h2>
+        <p>Use the Pawpharos Sniffer system to find a stealthy pet when they try to hide.</p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
     </div><!-- /.col-lg-4 -->
     <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <span class="rounded-circle">
+            <img style="object-fit:cover;object-position: 75% 0" width="140px" height="140px" src="{% static "app/images/odessa-xxl.png" %}">
+        </span>
 
-        <h2>Heading</h2>
-        <p>And lastly this, the third column of representative placeholder content.</p>
+        <h2>Look at This Cat</h2>
+        <p>Her name is Odessa and she is very fluffy.</p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
     </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
 
 
     <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+    <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading">How it works.</h2>
+        <p class="lead">
+            Pawpharos makes use of Bluetooth Low Energy technology (BLE) alongside a network of sniffer devices placed in your home or business
+             that listen for the signal of a BLE beacon attached to the collar of your pet as they move from room to room. You simply setup your 
+             sniffer network, attach the beacon device to your pet's collar, and watch as Pawpharos monitors your pet's location. 
+        </p>
+    </div>
+    <div class="col-md-5 order-md-1">
+        <img src="{% static 'app/images/bluetooth_icon.svg' %}" width="500" height="500" aria-label="Bluetooth Logo"/>
+    </div>
+    </div>
 
     <hr class="featurette-divider">
 
@@ -136,25 +151,12 @@
     <hr class="featurette-divider">
 
     <div class="row featurette">
-    <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-        <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
-    </div>
-    <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-
-    </div>
-    </div>
-
-    <hr class="featurette-divider">
-
-    <div class="row featurette">
     <div class="col-md-7">
         <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
         <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
     </div>
     <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        
 
     </div>
     </div>

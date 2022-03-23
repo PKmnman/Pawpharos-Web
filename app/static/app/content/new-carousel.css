@@ -1,0 +1,191 @@
+/* Carousel base class */
+.carousel {
+  margin-bottom: 4rem;
+}
+
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  bottom: 3rem;
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+  height: 32rem;
+}
+
+.carousel-item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 375px) {
+  .carousel-item a.btn {
+    max-height: 3rem;
+    font-size-adjust: 0.5;
+  }
+}
+/* MARKETING CONTENT
+-------------------------------------------------- */
+/* Center align the text within the three columns below the carousel */
+.marketing .col-lg-4 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.marketing h2 {
+  font-weight: 400;
+}
+
+/* rtl:begin:ignore */
+.marketing .col-lg-4 p {
+  margin-right: 0.75rem;
+  margin-left: 0.75rem;
+}
+
+/* rtl:end:ignore */
+/* Featurettes
+------------------------- */
+.featurette-divider {
+  margin: 5rem 0;
+  /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  /* rtl:remove */
+  letter-spacing: -0.05rem;
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+@media (min-width: 40em) {
+  /* Bump up size of carousel content */
+  .carousel-caption p {
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .featurette-heading {
+    font-size: 50px;
+  }
+}
+@media (min-width: 62em) {
+  .featurette-heading {
+    margin-top: 7rem;
+  }
+}
+.banner-princess {
+  background-image: url("https://static.pawpharos.com/static/app/images/princess-sm.png");
+  height: 512px;
+  background-repeat: no-repeat;
+  background-position: 75% 0%;
+  background-size: cover;
+}
+
+@media (min-width: 576px) {
+  .banner-princess {
+    background-image: url("https://static.pawpharos.com/static/app/images/princess-sm.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 768px) {
+  .banner-princess {
+    background-image: url("https://static.pawpharos.com/static/app/images/princess-md.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 992px) {
+  .banner-princess {
+    background-image: url("https://static.pawpharos.com/static/app/images/princess-lg.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 1200px) {
+  .banner-princess {
+    background-image: url("https://static.pawpharos.com/static/app/images/princess-xl.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 1400px) {
+  .banner-princess {
+    background-image: url("https://static.pawpharos.com/static/app/images/princess-xxl.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+.banner-bella {
+  background-image: url("https://static.pawpharos.com/static/app/images/bella-banner-sm.png");
+  height: 512px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+@media (min-width: 576px) {
+  .banner-bella {
+    background-image: url("https://static.pawpharos.com/static/app/images/bella-banner-sm.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 768px) {
+  .banner-bella {
+    background-image: url("https://static.pawpharos.com/static/app/images/bella-banner-md.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 992px) {
+  .banner-bella {
+    background-image: url("https://static.pawpharos.com/static/app/images/bella-banner-lg.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 1200px) {
+  .banner-bella {
+    background-image: url("https://static.pawpharos.com/static/app/images/bella-banner-xl.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+@media (min-width: 1400px) {
+  .banner-bella {
+    background-image: url("https://static.pawpharos.com/static/app/images/bella-banner-xxl.png");
+    height: 512px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+/*# sourceMappingURL=new-carousel.css.map */
