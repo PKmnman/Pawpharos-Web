@@ -1,6 +1,7 @@
 from rest_framework import serializers
 import app.models as models
 
+
 class UserSerializer(serializers.ModelSerializer):
 	
 	sniffers = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Sniffer.objects.all(), required=False)
@@ -21,12 +22,13 @@ class SnifferSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = models.Sniffer
-		fields = ['id', 'device_name', 'serial_code', 'is_master', 'owner']
+		fields = ['id', 'serial_code', 'owner']
+
 
 class TrackingEventSerializer(serializers.ModelSerializer):
 
-	time = serializers.DateTimeField()
+	event_time = serializers.DateTimeField(format="%m-%d-%y %H:%M:%S.%fz", required=True)
 
 	class Meta:
-		model = models.TrackingEvent
-		fields = ['id', 'sniffer', 'beacon', 'time']
+		models = models.TrackingEvent
+		fields = ['event_time', 'beacon_addr', 'sniffer_serial', 'rssi']

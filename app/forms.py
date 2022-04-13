@@ -71,27 +71,20 @@ class RegistrationForm(UserCreationForm):
         return True
 
     def user_exists(self):
-        # Check that the user accound doesn't already exist
+        # Check that the user account doesn't already exist
         login_name = self.cleaned_data['username']
-        return User.objects.filter(username=login_name).count() > 0
+        return User.objects.filter(username=login_name).exists()
 
     def register_user(self):
         # Register the user account
         if self.is_valid():
             user = self.save()
             user.refresh_from_db()
-            
-            # load the profile instance created by the signal
-            profile = models.UserProfile.objects.create()
 
-            # Associate the profile with the user account
-            user.profile = profile
             user.first_name = self.cleaned_data['first_name']
             user.last_name = self.cleaned_data['last_name']
-            # Save the changes to the database
-            profile.save()
-            user.save()
 
+            user.save()
             return True
 
         # Return False on failure to register

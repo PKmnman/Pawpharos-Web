@@ -11,3 +11,4 @@ virtualenvwrapper>=4.8.4
 django-cors-headers
 django-rest-framework
 channels
+djangorestframework~=3.13.1

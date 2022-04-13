@@ -1,5 +1,3 @@
-import rest_framework.authtoken.models
-from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
@@ -9,7 +7,6 @@ from rest_framework import permissions
 from app.api.serializers import SnifferSerializer, UserSerializer
 
 import app.models as models
-
 
 
 class SnifferApiView(APIView):
@@ -26,6 +23,40 @@ class SnifferApiView(APIView):
 			return models.Sniffer.objects.get(id=sniffer_id, owner = models.User.objects.get(id=user_id).id)
 		except models.Sniffer.DoesNotExist:
 			return None
+
+
+class TrackingEventAPIView(APIView):
+	permission_classes = [permissions.IsAuthenticated]
+	renderer_classes = [JSONRenderer]
+
+	def post(self, request):
+		try:
+			assert isinstance(request.data['snffer_serial'], str)
+		except AssertionError:
+			return Response({'data': 'Missing required parameter uuid.'}, status=status.HTTP_400_BAD_REQUEST)
+
+		try:
+			assert isinstance(request.data['beacon_addr'], str)
+		except AssertionError:
+			return Response({'data': 'Missing required parameter sniffer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+		# Retrieve the requested beacon and sniffer
+		beacon = request.user.beacons.get(mac_addr=request.data['beacon_addr'])
+		sniffer = request.user.beacons.get(serial_code=request.data['sniffer_serial'])
+
+		if sniffer is None:
+			return Response({"details": "Sniffer does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
+
+		if beacon is None:
+			return Response({"details": "Beacon does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
+
+		location = sniffer.location
+		event_time = request.data['event_time']
+
+		event = models.TrackingEvent.objects.create(beacon=beacon, sniffer=sniffer, location=location, time=event_time)
+		event.save()
+
+		return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['PUT', 'POST'])
