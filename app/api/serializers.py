@@ -5,11 +5,10 @@ import app.models as models
 class UserSerializer(serializers.ModelSerializer):
 	
 	sniffers = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Sniffer.objects.all(), required=False)
-	locations = serializers.PrimaryKeyRelatedField(many=True, queryset=models.Location.objects.all(), required=False)
 
 	class Meta:
 		model = models.User
-		fields = ['id', 'username', 'sniffers', 'locations']
+		fields = ['id', 'username', 'sniffers']
 		read_only_fields = ['id']
 
 
