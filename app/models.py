@@ -38,15 +38,6 @@ class Sniffer(models.Model):
         related_name="sniffers")
 
 
-# Stores User-Defined Locations
-class Location(models.Model):
-    label = models.CharField(max_length=64)
-    description = models.TextField(default="")
-    sniffer = models.OneToOneField(Sniffer, on_delete=models.SET_NULL, null=True)
-    # The account this location belongs to
-    account = models.ForeignKey(User, on_delete=models.CASCADE, related_name="locations")
-
-
 # Stores data for pets
 class Pet(models.Model):
     name = models.CharField(max_length=125)
