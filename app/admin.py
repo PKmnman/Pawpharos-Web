@@ -17,4 +17,5 @@ class BeaconAdmin(admin.ModelAdmin):
 
 @admin.register(models.TrackingEvent)
 class EventAdmin(admin.ModelAdmin):
-	ordering = ['time']
+	ordering = ['event_time']
+	list_display_links = ('event_time',)

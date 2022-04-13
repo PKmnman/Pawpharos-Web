@@ -63,9 +63,10 @@ class Pet(models.Model):
 class TrackingEvent(models.Model):
     event_time = models.DateTimeField(verbose_name="Event Time")
     # Beacon ID - The beacon detected (1:N)
-    beacon = models.ForeignKey(BeaconDevice, on_delete=models.CASCADE, related_name="events")
+    beacon_addr = models.ForeignKey(BeaconDevice, on_delete=models.CASCADE, related_name="events")
     # Sniffer ID - The sniffer that detected it (1:N)
-    sniffer = models.ForeignKey(Sniffer, on_delete=models.CASCADE, related_name="events")
+    sniffer_serial = models.ForeignKey(Sniffer, on_delete=models.CASCADE, related_name="events")
+    rssi = models.IntegerField()
 
     class Meta:
         verbose_name = "Tracking Event"

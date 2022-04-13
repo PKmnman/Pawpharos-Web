@@ -27,8 +27,8 @@ class SnifferSerializer(serializers.ModelSerializer):
 
 class TrackingEventSerializer(serializers.ModelSerializer):
 
-	time = serializers.DateTimeField(format="%m-%d-%y %H:%M:%S.%fz")
+	event_time = serializers.DateTimeField(format="%m-%d-%y %H:%M:%S.%fz", required=True)
 
 	class Meta:
-		model = models.TrackingEvent
-		fields = ['sniffer', 'beacon', 'time']
+		models = models.TrackingEvent
+		fields = ['event_time', 'beacon_addr', 'sniffer_serial', 'rssi']
