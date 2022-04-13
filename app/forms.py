@@ -71,9 +71,9 @@ class RegistrationForm(UserCreationForm):
         return True
 
     def user_exists(self):
-        # Check that the user accound doesn't already exist
+        # Check that the user account doesn't already exist
         login_name = self.cleaned_data['username']
-        return User.objects.filter(username=login_name).count() > 0
+        return User.objects.filter(username=login_name).exists()
 
     def register_user(self):
         # Register the user account

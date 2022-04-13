@@ -83,11 +83,12 @@ def register(request):
     if request.method == 'POST':
         form = forms.RegistrationForm(request.POST)
         LOGGER.debug("Attempting to register user..")
-        if form.is_valid() and form.register_user():
+        if form.register_user():
             LOGGER.info("User registered! Logging in...")
             # login user after signing up
             raw_password = form.cleaned_data['password1']
-            user = authenticate(username=user.username, password=raw_password)
+            username = form.cleaned_data['username']
+            user = authenticate(username=username, password=raw_password)
             login(request, user)
             LOGGER.info("User [%s] has successfully logged in.", user.get_username())
             # redirect user to home page
