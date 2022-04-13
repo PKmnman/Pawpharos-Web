@@ -13,6 +13,7 @@ class SnifferAdmin(admin.ModelAdmin):
 @admin.register(models.BeaconDevice)
 class BeaconAdmin(admin.ModelAdmin):
 	fields = ('mac_addr', 'owner')
+	list_display = ('mac_addr', 'owner')
 	list_display_links = ('mac_addr',)
 	search_fields = ['owner__email', 'mac_addr']
 
@@ -21,4 +22,5 @@ class BeaconAdmin(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
 	ordering = ['event_time']
 	date_hierarchy = 'event_time'
+	list_display = ('event_time', 'beacon_addr', 'sniffer_serial')
 	list_display_links = ('event_time',)
