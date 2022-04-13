@@ -1,7 +1,3 @@
-import datetime
-
-import rest_framework.authtoken.models
-from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
@@ -9,10 +5,9 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework import status
 from rest_framework import permissions
 from app.api.serializers import SnifferSerializer, UserSerializer
-import time
 
+import datetime
 import app.models as models
-
 
 
 class SnifferApiView(APIView):
@@ -58,18 +53,18 @@ def create_sniffer(request):
 def post_tracking_event(request):
 	if request.method == 'POST':
 		try:
-			assert isinstance(request.data['uuid'], str)
+			assert isinstance(request.data['snffer_serial'], str)
 		except AssertionError:
 			return Response({'data': 'Missing required parameter uuid.'}, status=status.HTTP_400_BAD_REQUEST)
 
 		try:
-			assert isinstance(request.data['sniffer'], str)
+			assert isinstance(request.data['bc_addr'], str)
 		except AssertionError:
 			return Response({'data': 'Missing required parameter sniffer.'}, status=status.HTTP_400_BAD_REQUEST)
 
 		# Retrieve the requested beacon and sniffer
-		beacon = request.user.beacons.get(bc_uuid=request.data['uuid'])
-		sniffer = request.user.beacons.get(serial_code=request.data['sniffer'])
+		beacon = request.user.beacons.get(mac_addr=request.data['bc_addr'])
+		sniffer = request.user.beacons.get(serial_code=request.data['sniffer_serial'])
 
 		if sniffer is None:
 			return Response({"details": "Sniffer does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
@@ -78,8 +73,9 @@ def post_tracking_event(request):
 			return Response({"details": "Beacon does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
 
 		location = sniffer.location
+		event_time = request.data['event_time']
 
-		event = models.TrackingEvent.objects.create(beacon=beacon, sniffer=sniffer, location=location, time=time.asctime())
+		event = models.TrackingEvent.objects.create(beacon=beacon, sniffer=sniffer, location=location, time=event_time)
 		event.save()
 
 		return Response(status=status.HTTP_200_OK)
