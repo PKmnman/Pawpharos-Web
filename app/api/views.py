@@ -34,7 +34,7 @@ class TrackingEventAPIView(APIView):
 
 	def post(self, request):
 		try:
-			assert isinstance(request.data['snffer_serial'], str)
+			assert isinstance(request.data['sniffer_serial'], str)
 		except AssertionError:
 			return Response({'data': 'Missing required parameter uuid.'}, status=status.HTTP_400_BAD_REQUEST)
 
