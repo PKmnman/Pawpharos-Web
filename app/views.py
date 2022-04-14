@@ -77,6 +77,21 @@ def account(request, **kwargs):
             }
         )
 
+@login_required(login_url='login/')
+def event_list(request: HttpRequest):
+    if request.method == 'GET':
+        events = models.TrackingEvent.objects.filter(
+            beacon_addr__owner=request.user,
+            sniffer_serial__owner=request.user
+        ).order_by('-event_time').all()
+
+        context_dict = {
+            'title': 'Pawpharos | View Events',
+            'tracking_events': events
+        }
+
+        return render(request, 'app/tracking.html', context=context_dict)
+    return Http404()
 
 def register(request):
     LOGGER.info("Received registration request.")

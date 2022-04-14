@@ -28,6 +28,9 @@ class TrackingEventSerializer(serializers.ModelSerializer):
 
 	event_time = serializers.DateTimeField(required=True)
 
+	def create(self, validated_data):
+		return models.TrackingEvent(**validated_data)
+
 	class Meta:
 		models = models.TrackingEvent
 		fields = ['event_time', 'beacon_addr', 'sniffer_serial', 'rssi']
