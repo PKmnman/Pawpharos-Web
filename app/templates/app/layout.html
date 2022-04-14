@@ -35,12 +35,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class='nav-link' href="{% url 'features' %}">Features</a>
-                        </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class='nav-link' href="{% url 'account' %}">My Account</a>
+                            <a class='nav-link' href="{% url 'account' %}">Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class='nav-link' href="{% url 'event-list' %}">Tracking</a>
                         </li>
                         {% endif %}
                     </ul>

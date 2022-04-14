@@ -1,3 +1,5 @@
+import datetime
+
 import rest_framework.authentication
 from django.http import HttpRequest
 from rest_framework.views import APIView
@@ -6,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes, renderer_cla
 from rest_framework.renderers import JSONRenderer
 from rest_framework import status
 from rest_framework import permissions
-from app.api.serializers import SnifferSerializer, UserSerializer
+from app.api.serializers import SnifferSerializer, UserSerializer, TrackingEventSerializer
 import logging
 from django.views.decorators.csrf import csrf_exempt
 import app.models as models
@@ -37,33 +39,31 @@ class TrackingEventAPIView(APIView):
 		try:
 			assert isinstance(request.data['sniffer_serial'], str)
 		except AssertionError:
-			return Response({'data': 'Missing required parameter uuid.'}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({'error': 'Missing required parameter uuid.'}, status=status.HTTP_400_BAD_REQUEST)
 
 		try:
 			assert isinstance(request.data['beacon_addr'], str)
 		except AssertionError:
-			return Response({'data': 'Missing required parameter sniffer.'}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({'error': 'Missing required parameter sniffer.'}, status=status.HTTP_400_BAD_REQUEST)
 
 		# Retrieve the requested beacon and sniffer
 		beacon = request.user.beacons.get(mac_addr=request.data['beacon_addr'])
 		sniffer = request.user.sniffers.get(serial_code=request.data['sniffer_serial'])
 
-		if sniffer is None:
-			return Response({"details": "Sniffer does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
+		event_time = datetime.datetime.fromisoformat(request.data['event_time'])
 
-		if beacon is None:
-			return Response({"details": "Beacon does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
+		prev_event = models.TrackingEvent.objects.filter(beacon_addr=beacon, sniffer_serial=sniffer).order_by('-event_time')[0]
 
-		location = sniffer.location
-		event_time = request.data['event_time']
+		event = models.TrackingEvent(beacon_addr=beacon,
+									 sniffer_serial=sniffer,
+									 event_time=event_time,
+									 rssi=request.data['rssi'])
 
-		event = models.TrackingEvent.objects.create(beacon_addr=beacon,
-													sniffer_serial=sniffer,
-													event_time=event_time,
-													rssi=request.data['rssi'])
+		if prev_event is not None and (event_time - prev_event.event_time) < datetime.timedelta(minutes=5):
+			return Response(status=status.HTTP_208_ALREADY_REPORTED)
+
 		event.save()
-
-		return Response(status=status.HTTP_200_OK)
+		return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(['PUT', 'POST'])

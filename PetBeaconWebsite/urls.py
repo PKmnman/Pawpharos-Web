@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('features/', views.features, name='features'),
     path('account/', views.account, {'account_id':None}, name='account'),
+    path('tracking/', views.event_list, name='event-list'),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('app.api.urls')),
 ]
