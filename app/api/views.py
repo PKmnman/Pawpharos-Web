@@ -1,3 +1,4 @@
+import rest_framework.authentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
@@ -26,10 +27,10 @@ class SnifferApiView(APIView):
 			return None
 
 
-@csrf_exempt
 class TrackingEventAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	renderer_classes = [JSONRenderer]
+	authentication_classes = [rest_framework.authentication.TokenAuthentication]
 
 	def post(self, request):
 		try:
