@@ -5,7 +5,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework import status
 from rest_framework import permissions
 from app.api.serializers import SnifferSerializer, UserSerializer
-
+import logging
+from django.views.decorators.csrf import csrf_exempt
 import app.models as models
 
 
@@ -25,6 +26,7 @@ class SnifferApiView(APIView):
 			return None
 
 
+@csrf_exempt
 class TrackingEventAPIView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
 	renderer_classes = [JSONRenderer]
