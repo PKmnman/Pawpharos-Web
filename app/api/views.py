@@ -1,4 +1,5 @@
 import rest_framework.authentication
+from django.http import HttpRequest
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
@@ -32,7 +33,7 @@ class TrackingEventAPIView(APIView):
 	renderer_classes = [JSONRenderer]
 	authentication_classes = [rest_framework.authentication.TokenAuthentication]
 
-	def post(self, request):
+	def post(self, request: HttpRequest):
 		try:
 			assert isinstance(request.data['sniffer_serial'], str)
 		except AssertionError:
@@ -45,7 +46,7 @@ class TrackingEventAPIView(APIView):
 
 		# Retrieve the requested beacon and sniffer
 		beacon = request.user.beacons.get(mac_addr=request.data['beacon_addr'])
-		sniffer = request.user.beacons.get(serial_code=request.data['sniffer_serial'])
+		sniffer = request.user.sniffers.get(serial_code=request.data['sniffer_serial'])
 
 		if sniffer is None:
 			return Response({"details": "Sniffer does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
