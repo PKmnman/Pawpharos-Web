@@ -52,14 +52,14 @@ class TrackingEventAPIView(APIView):
 
 		event_time = datetime.datetime.fromisoformat(request.data['event_time'])
 
-		prev_event = models.TrackingEvent.objects.filter(beacon_addr=beacon, sniffer_serial=sniffer).order_by('-event_time')[0]
+		prev_event = models.TrackingEvent.objects.filter(beacon_addr=beacon).order_by('-event_time')[0]
 
 		event = models.TrackingEvent(beacon_addr=beacon,
 									 sniffer_serial=sniffer,
 									 event_time=event_time,
 									 rssi=request.data['rssi'])
 
-		if prev_event is not None and (event_time - prev_event.event_time) < datetime.timedelta(minutes=5):
+		if prev_event is not None and prev_event.sniffer_serial == sniffer and (event_time - prev_event.event_time) < datetime.timedelta(minutes=5):
 			return Response(status=status.HTTP_208_ALREADY_REPORTED)
 
 		event.save()
