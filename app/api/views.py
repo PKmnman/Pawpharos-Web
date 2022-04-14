@@ -46,7 +46,7 @@ class TrackingEventAPIView(APIView):
 
 		# Retrieve the requested beacon and sniffer
 		beacon = request.user.beacons.get(mac_addr=request.data['beacon_addr'])
-		sniffer = models.Sniffer.objects.get(serial_code=request.data['sniffer_serial'])
+		sniffer = request.user.sniffers.get(serial_code=request.data['sniffer_serial'])
 
 		if sniffer is None:
 			return Response({"details": "Sniffer does not exist!"}, status=status.HTTP_400_BAD_REQUEST)
