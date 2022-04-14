@@ -57,7 +57,10 @@ class TrackingEventAPIView(APIView):
 		location = sniffer.location
 		event_time = request.data['event_time']
 
-		event = models.TrackingEvent.objects.create(beacon_addr=beacon, sniffer=sniffer, location=location, time=event_time)
+		event = models.TrackingEvent.objects.create(beacon_addr=beacon,
+													sniffer_serial=sniffer,
+													event_time=event_time,
+													rssi=request.data['rssi'])
 		event.save()
 
 		return Response(status=status.HTTP_200_OK)
